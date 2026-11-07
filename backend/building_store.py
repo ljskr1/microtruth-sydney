@@ -70,5 +70,35 @@ def get_building_comps(address: str, limit: int = 5) -> Dict[str, Any]:
             "leases_count": len(leases),
             "building_median_sale": int(sum(sale_prices) / len(sale_prices)) if sale_prices else None,
             "building_median_rent": int(sum(lease_rents) / len(lease_rents)) if lease_rents else None,
-        }
+        },
+        "public_housing_context": get_public_housing_context(address)
+    }
+
+def get_public_housing_context(address: str, gnaf_id: str = None) -> Dict[str, Any]:
+    street_norm = normalize_street(address)
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    is_public_housing = False
+    confidence = 0
+    if gnaf_id:
+        cur.execute("SELECT confidence_score FROM public_housing WHERE gnaf_pid = ?", (gnaf_id,))
+        row = cur.fetchone()
+        if row:
+            is_public_housing = True
+            confidence = row["confidence_score"]
+
+    cur.execute("SELECT COUNT(*) as count FROM public_housing WHERE street_norm = ?", (street_norm,))
+    street_count = cur.fetchone()["count"]
+    conn.close()
+
+    return {
+        "is_public_housing_building": is_public_housing,
+        "building_confidence_score": confidence,
+        "social_housing_units_on_street": street_count,
+        "summary": (
+            f"🚨 VERIFIED PUBLIC HOUSING: Address is marked as public housing (confidence: {confidence})"
+            if is_public_housing else
+            (f"⚠️ {street_count} Verified Public Housing Dwellings on this street" if street_count > 0 else "✅ No public housing dwellings on this street")
+        )
     }
