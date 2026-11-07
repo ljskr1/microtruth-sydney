@@ -82,3 +82,13 @@ def test_social_card_data(api_test_client):
     assert "advert" in data
     assert "facts" in data
     assert "viral_hook" in data
+
+def test_building_comps_endpoint(api_test_client):
+    res = api_test_client.get("/api/building-comps?address=Unit%20105,%208%20Sam%20Sing%20Street,%20Waterloo")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["normalized_building_street"] == "8 SAM SING STREET"
+    assert data["building_stats"]["sales_count"] > 0
+    assert data["building_stats"]["leases_count"] > 0
+    assert len(data["recent_sales"]) > 0
+    assert len(data["recent_leases"]) > 0

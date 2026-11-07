@@ -14,6 +14,11 @@ try:
 except ImportError:
     from .microburbs_client import MicroburbsClient
 
+try:
+    from building_store import get_building_comps
+except ImportError:
+    from .building_store import get_building_comps
+
 load_dotenv()
 
 app = FastAPI(
@@ -132,7 +137,20 @@ async def analyze_property(
     )
     if not result.get("success"):
         return JSONResponse(status_code=404, content=result)
+    
+    # Enrich with same-building transactions from local SQLite ledger
+    comps = get_building_comps(address)
+    result["building_comps"] = comps
     return result
+
+@app.get("/api/building-comps")
+async def building_comps_endpoint(
+    address: str = Query(..., description="Address to search same-building past sales and leases"),
+    limit: int = Query(5, description="Maximum number of comps to return")
+):
+    """Returns past sales and leases in the exact same apartment building from the local SQLite ledger."""
+    comps = get_building_comps(address, limit=limit)
+    return comps
 
 @app.get("/api/suburbs/list")
 async def list_suburbs():

@@ -24,6 +24,14 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Hackathon Private Data
+# Hackathon Submissions & Data
 *.csv
 !sample_listings.csv
+!submission/rents_oneshot.csv
+!submission/valuation_oneshot.csv
+
+# SQLite Databases
+*.db
+*.sqlite
+*.sqlite3
+backend/data/*.db
