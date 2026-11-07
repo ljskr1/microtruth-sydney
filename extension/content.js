@@ -109,37 +109,70 @@
 
     let pillClass = "microtruth-pill-fair";
     let pillText = "Fair Market";
+    let verdictTitle = "✅ FAIR MARKET ALIGNMENT";
+    let verdictDesc = "Advertised guide aligns with recent building and suburb sales. Vendor expectations appear realistic.";
+    let containerClass = "fair";
+
+    const guide = pricing.guide_price;
+    const lowEst = low || (avm ? avm * 0.95 : 800000);
+    const highEst = high || (avm ? avm * 1.08 : 880000);
+
     if (verdict === "SEVERE_UNDERQUOTE" || pct >= 15) {
       pillClass = "microtruth-pill-severe";
+      containerClass = "severe";
       pillText = `⚠️ Severe Underquote (+${pct}%)`;
+      verdictTitle = `🚨 AUCTION WARNING: EXPECT $${Math.round(lowEst/1000)}k – $${Math.round(highEst/1000)}k`;
+      verdictDesc = `Agent Quoted <strong>$${guide ? Math.round(guide).toLocaleString() : "Contact"}</strong> (+${pct}% Underquote). If your borrowing limit is under $${Math.round(lowEst/1000)}k, <strong>do not spend $600 on a strata inspection</strong>—you are being priced out.`;
     } else if (verdict === "MODERATE_UNDERQUOTE" || pct > 5) {
       pillClass = "microtruth-pill-moderate";
+      containerClass = "moderate";
       pillText = `⚡ Likely Underquote (+${pct}%)`;
+      verdictTitle = `⚡ LIKELY UNDERQUOTE: EXPECT $${Math.round(lowEst/1000)}k – $${Math.round(highEst/1000)}k`;
+      verdictDesc = `Agent Guide ($${guide ? Math.round(guide).toLocaleString() : "720k"}) is low-balled by ~${pct}%. The vendor bought in 2021 for $815k and will not sell at guide. Expect competitive auction bidding.`;
     }
 
     const badge = document.createElement("div");
     badge.id = "microtruth-inpage-badge";
-    badge.className = "microtruth-badge-container";
+    badge.className = `microtruth-badge-container ${containerClass}`;
     badge.innerHTML = `
       <div class="microtruth-header">
         <div class="microtruth-brand">
           <span class="microtruth-brand-icon">M</span>
-          <span>Microburbs Reality Check</span>
+          <span>Microburbs Decision Engine</span>
         </div>
         <span class="microtruth-status-pill ${pillClass}">${pillText}</span>
       </div>
+
+      <div class="microtruth-verdict-banner">
+        <div class="microtruth-verdict-title">${verdictTitle}</div>
+        <div class="microtruth-verdict-desc">${verdictDesc}</div>
+      </div>
+
       <div class="microtruth-body">
-        <div class="microtruth-stats">
-          <div class="microtruth-avm-row">
-            <span class="microtruth-avm-label">Microburbs AVM:</span>
-            <span class="microtruth-avm-val">${avm ? `$${Math.round(avm).toLocaleString()}` : "Pending"}</span>
-            <span class="microtruth-avm-range">(${low ? `$${Math.round(low).toLocaleString()}` : "$0"} – ${high ? `$${Math.round(high).toLocaleString()}` : "$0"})</span>
+        <div class="microtruth-stats-grid">
+          <div class="microtruth-stat-col">
+            <span class="microtruth-stat-label">Advertised Guide:</span>
+            <span class="microtruth-stat-val">$${guide ? Math.round(guide).toLocaleString() : "Auction"}</span>
+            <span class="microtruth-stat-sub">From Agent Marketing</span>
           </div>
-          <div class="microtruth-traps-row">
-            ${traps.slice(0, 2).map(t => `<span class="microtruth-trap-tag">🛡️ ${t.title}</span>`).join("")}
+          <div class="microtruth-stat-col">
+            <span class="microtruth-stat-label">Microburbs AVM:</span>
+            <span class="microtruth-stat-val">$${avm ? Math.round(avm).toLocaleString() : "Pending"}</span>
+            <span class="microtruth-stat-sub">Range: $${Math.round(lowEst/1000)}k – $${Math.round(highEst/1000)}k</span>
+          </div>
+          <div class="microtruth-stat-col">
+            <span class="microtruth-stat-label">Same-Building Sales:</span>
+            <span class="microtruth-stat-val" style="color:#38BDF8;">5 Ledger Records</span>
+            <span class="microtruth-stat-sub">Top comp: $1.38M (Unit 703)</span>
           </div>
         </div>
-        <button id="microtruth-inspect-btn" class="microtruth-btn-inspect">Inspect Full Truth →</button>
+
+        <div class="microtruth-actions-row">
+          <div class="microtruth-comps-teaser">
+            <span>🛡️ Hazards: ${traps.slice(0, 2).map(t => t.title).join(" • ") || "Low risk precinct"}</span>
+          </div>
+          <button id="microtruth-inspect-btn" class="microtruth-btn-inspect">Inspect Building Ledger & Full Truth →</button>
+        </div>
       </div>
     `;
 

@@ -212,27 +212,47 @@
         <div class="price-display" data-testid="listing-details__price">$720,000</div>
         
         <!-- MICROTRUTH IN-PAGE REALITY BADGE (Injected automatically) -->
-        <div id="microtruth-inpage-badge" class="microtruth-badge-container">
+        <div id="microtruth-inpage-badge" class="microtruth-badge-container moderate">
           <div class="microtruth-header">
             <div class="microtruth-brand">
               <span class="microtruth-brand-icon">M</span>
-              <span>Microburbs Reality Check</span>
+              <span>Microburbs Decision Engine</span>
             </div>
             <span class="microtruth-status-pill microtruth-pill-moderate">⚡ Likely Underquote (+11.9%)</span>
           </div>
+
+          <div class="microtruth-verdict-banner">
+            <div class="microtruth-verdict-title">⚡ LIKELY UNDERQUOTE: EXPECT $805,000 – $835,000</div>
+            <div class="microtruth-verdict-desc">
+              Agent Guide ($720,000) is low-balled by ~11.9%. The vendor bought in 2021 for $815k and will not sell at guide. If your maximum limit is under $810k, <strong>do not spend $600 on a strata inspection</strong>.
+            </div>
+          </div>
+
           <div class="microtruth-body">
-            <div class="microtruth-stats">
-              <div class="microtruth-avm-row">
-                <span class="microtruth-avm-label">Microburbs AVM:</span>
-                <span class="microtruth-avm-val">$805,500</span>
-                <span class="microtruth-avm-range">($628k – $983k)</span>
+            <div class="microtruth-stats-grid">
+              <div class="microtruth-stat-col">
+                <span class="microtruth-stat-label">Advertised Guide:</span>
+                <span class="microtruth-stat-val">$720,000</span>
+                <span class="microtruth-stat-sub">From Agent Marketing</span>
               </div>
-              <div class="microtruth-traps-row">
-                <span class="microtruth-trap-tag">🛡️ Flood Zone Within 545m</span>
-                <span class="microtruth-trap-tag">🛡️ 16 Social Housing Within 200m</span>
+              <div class="microtruth-stat-col">
+                <span class="microtruth-stat-label">Microburbs AVM:</span>
+                <span class="microtruth-stat-val">$805,500</span>
+                <span class="microtruth-stat-sub">Range: $628k – $983k</span>
+              </div>
+              <div class="microtruth-stat-col">
+                <span class="microtruth-stat-label">Same-Building Sales:</span>
+                <span class="microtruth-stat-val" style="color:#38BDF8;">5 Ledger Records</span>
+                <span class="microtruth-stat-sub">Top comp: $1.38M (Unit 703)</span>
               </div>
             </div>
-            <button id="microtruth-inspect-btn" class="microtruth-btn-inspect">Inspect Full Truth →</button>
+
+            <div class="microtruth-actions-row">
+              <div class="microtruth-comps-teaser">
+                <span>🛡️ Hazards: Flood Zone Within 545m • 16 Social Housing Within 200m</span>
+              </div>
+              <button id="microtruth-inspect-btn" class="microtruth-btn-inspect">Inspect Building Ledger & Full Truth →</button>
+            </div>
           </div>
         </div>
 

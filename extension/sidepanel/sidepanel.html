@@ -100,6 +100,38 @@
         </p>
       </section>
 
+      <!-- Inside The Building: Historical Sales & Leases Ledger (ELEVATED TO TOP) -->
+      <section class="card building-comps-card">
+        <div class="card-header">
+          <h3>Inside This Building (The Secret Ledger)</h3>
+          <span class="tag tag-green">Verified Comps</span>
+        </div>
+        <p class="section-desc">Actual transaction records for other units in this exact apartment block (8 Sam Sing St).</p>
+        
+        <div class="building-summary-badges">
+          <div class="summary-pill">
+            <span class="summary-label">Building Median Sale:</span>
+            <strong id="building-med-sale">$923,377</strong>
+          </div>
+          <div class="summary-pill">
+            <span class="summary-label">Building Median Rent:</span>
+            <strong id="building-med-rent">$1,376/wk</strong>
+          </div>
+        </div>
+
+        <div class="comps-tabs">
+          <button id="tab-sales" class="comp-tab active">Past Sales (<span id="comps-sales-count">5</span>)</button>
+          <button id="tab-leases" class="comp-tab">Past Leases (<span id="comps-leases-count">5</span>)</button>
+        </div>
+
+        <div id="comps-sales-list" class="comps-table-container">
+          <!-- Populated dynamically with Unit, Date, Price, Beds/Baths/Cars -->
+        </div>
+        <div id="comps-leases-list" class="comps-table-container" style="display: none;">
+          <!-- Populated dynamically with Unit, Date, Weekly Rent, Beds/Baths/Cars -->
+        </div>
+      </section>
+
       <!-- The Hidden Trap & Hazard Radar -->
       <section class="card traps-card">
         <div class="card-header">
@@ -196,38 +228,6 @@
         </div>
         <div class="parking-premium-banner">
           <span>🚗 Estimated Parking Premium: <strong id="parking-premium">+$68/wk</strong></span>
-        </div>
-      </section>
-
-      <!-- Inside The Building: Historical Sales & Leases Ledger -->
-      <section class="card building-comps-card">
-        <div class="card-header">
-          <h3>Inside This Building</h3>
-          <span class="tag tag-green">Verified Ledger</span>
-        </div>
-        <p class="section-desc">Actual transaction records for other units in this exact apartment complex.</p>
-        
-        <div class="building-summary-badges">
-          <div class="summary-pill">
-            <span class="summary-label">Building Median Sale:</span>
-            <strong id="building-med-sale">$923,377</strong>
-          </div>
-          <div class="summary-pill">
-            <span class="summary-label">Building Median Rent:</span>
-            <strong id="building-med-rent">$1,376/wk</strong>
-          </div>
-        </div>
-
-        <div class="comps-tabs">
-          <button id="tab-sales" class="comp-tab active">Past Sales (<span id="comps-sales-count">5</span>)</button>
-          <button id="tab-leases" class="comp-tab">Past Leases (<span id="comps-leases-count">5</span>)</button>
-        </div>
-
-        <div id="comps-sales-list" class="comps-table-container">
-          <!-- Populated dynamically with Unit, Date, Price, Beds/Baths/Cars -->
-        </div>
-        <div id="comps-leases-list" class="comps-table-container" style="display: none;">
-          <!-- Populated dynamically with Unit, Date, Weekly Rent, Beds/Baths/Cars -->
         </div>
       </section>
 
