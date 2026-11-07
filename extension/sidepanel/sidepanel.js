@@ -261,11 +261,17 @@ async function initGoogleGeospatialCockpit(data, propLat, propLon) {
       if (svgMap) svgMap.style.display = "none";
       if (satContainer) satContainer.style.display = "block";
       if (streetContainer) streetContainer.style.display = "none";
+      if (satImg) {
+        satImg.src = `http://127.0.0.1:8000/api/maps/satellite?lat=${lat}&lng=${lon}&zoom=18`;
+      }
     } else if (mode === "streetview") {
       if (mapContainer) mapContainer.style.display = "none";
       if (svgMap) svgMap.style.display = "none";
       if (satContainer) satContainer.style.display = "none";
       if (streetContainer) streetContainer.style.display = "block";
+      if (streetImg) {
+        streetImg.src = `http://127.0.0.1:8000/api/maps/streetview?lat=${lat}&lng=${lon}`;
+      }
     }
   }
 
@@ -741,6 +747,30 @@ function downloadCardAsPng() {
   link.click();
 }
 
+function setupButtons() {
+  document.getElementById("btn-generate-letter")?.addEventListener("click", generateOfferLetter);
+  document.getElementById("btn-copy-reddit")?.addEventListener("click", copyRedditFormat);
+  document.getElementById("btn-download-card")?.addEventListener("click", downloadCardAsPng);
+  document.getElementById("btn-copy-letter")?.addEventListener("click", () => {
+    const text = document.getElementById("letter-text").value;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById("btn-copy-letter");
+      if (btn) btn.innerText = "✅ Offer Copied!";
+      setTimeout(() => { if (btn) btn.innerText = "Copy Offer to Clipboard"; }, 2000);
+    });
+  });
+
+  const demoSelect = document.getElementById("demo-select");
+  if (demoSelect) {
+    demoSelect.addEventListener("change", (e) => {
+      const val = e.target.value;
+      if (val && DEMO_PROFILES[val]) {
+        renderAnalysis(DEMO_PROFILES[val]);
+      }
+    });
+  }
+}
+
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
   // Listen for storage changes from content script
@@ -762,42 +792,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderAnalysis(DEMO_PROFILES["Unit 105, 8 Sam Sing Street, Waterloo"]);
   }
 
-  // Setup Comps tabs
+  // Setup Comps tabs & Buttons
   setupCompTabs();
-});
-
-function setupCompTabs() {
-  const tabSales = document.getElementById("tab-sales");
-  const tabLeases = document.getElementById("tab-leases");
-  const listSales = document.getElementById("comps-sales-list");
-  const listLeases = document.getElementById("comps-leases-list");
-
-  if (tabSales && tabLeases && listSales && listLeases) {
-    tabSales.addEventListener("click", () => {
-      tabSales.classList.add("active");
-      tabLeases.classList.remove("active");
-      listSales.style.display = "block";
-      listLeases.style.display = "none";
-    });
-    tabLeases.addEventListener("click", () => {
-      tabLeases.classList.add("active");
-      tabSales.classList.remove("active");
-      listLeases.style.display = "block";
-      listSales.style.display = "none";
-    });
-  }
-}
-
-  // Buttons
-  document.getElementById("btn-generate-letter").addEventListener("click", generateOfferLetter);
-  document.getElementById("btn-copy-reddit").addEventListener("click", copyRedditFormat);
-  document.getElementById("btn-download-card").addEventListener("click", downloadCardAsPng);
-  document.getElementById("btn-copy-letter")?.addEventListener("click", () => {
-    const text = document.getElementById("letter-text").value;
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById("btn-copy-letter");
-      btn.innerText = "✅ Offer Copied!";
-      setTimeout(() => { btn.innerText = "Copy Offer to Clipboard"; }, 2000);
-    });
-  });
+  setupButtons();
 });
