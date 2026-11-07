@@ -9,10 +9,23 @@ import os
 import pandas as pd
 import numpy as np
 
+def get_input_path(rel_path):
+    candidates = [
+        rel_path,
+        os.path.join("..", rel_path),
+        f"/Users/lijah/Downloads/luke /{rel_path}",
+        os.path.expanduser(f"~/Desktop/{rel_path}"),
+        f"/Users/lijah/Desktop/{rel_path}"
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return rel_path
+
 def verify_task4():
     print("--> Verifying Task 4: rents_oneshot.csv")
     path = "submission/rents_oneshot.csv"
-    input_path = "task4-rents/rents-input-flats-city-of-sydney.csv"
+    input_path = get_input_path("task4-rents/rents-input-flats-city-of-sydney.csv")
     
     assert os.path.exists(path), f"File {path} does not exist!"
     assert os.path.exists(input_path), f"File {input_path} does not exist!"
@@ -53,7 +66,7 @@ def verify_task4():
 def verify_task5():
     print("--> Verifying Task 5: valuation_oneshot.csv")
     path = "submission/valuation_oneshot.csv"
-    input_path = "task5-valuation/flats-city-of-sydney.csv"
+    input_path = get_input_path("task5-valuation/flats-city-of-sydney.csv")
 
     assert os.path.exists(path), f"File {path} does not exist!"
     assert os.path.exists(input_path), f"File {input_path} does not exist!"

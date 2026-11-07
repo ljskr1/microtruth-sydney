@@ -1,0 +1,23 @@
+{
+  "name": "microtruth-sydney",
+  "version": "1.0.0",
+  "description": "> **The Microburbs Hackathon 2026 Entry**   > **Team**: Oneshot (`team-29`)   > **Repository**: [https://github.com/ljskr1/microtruth-sydney](https://github.com/ljskr1/microtruth-sydney)   > **Pitch Video**: `submission/pitch.mp4` (40 seconds, 1080p, <95 MB)   > **Demo Walkthrough**: `submission/demo.mp4` (2 minutes 15 seconds, 1080p, <95 MB)   > **Written Report**: `report.html` (Full comparative report & held-out validation)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ljskr1/microtruth-sydney.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ljskr1/microtruth-sydney/issues"
+  },
+  "homepage": "https://github.com/ljskr1/microtruth-sydney#readme",
+  "devDependencies": {
+    "playwright": "^1.65.0"
+  }
+}

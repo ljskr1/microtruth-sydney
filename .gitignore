@@ -24,7 +24,9 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Hackathon Submissions & Data
+# Intermediate recordings
+recordings/
+
 *.csv
 !sample_listings.csv
 !submission/rents_oneshot.csv

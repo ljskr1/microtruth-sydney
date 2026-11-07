@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit 105, 8 Sam Sing Street, Waterloo NSW 2017 | Domain</title>
+  <link rel="stylesheet" href="/extension/content.css">
+  <style>
+    :root {
+      --domain-green: #00875A;
+      --domain-dark: #1E293B;
+      --domain-bg: #F8FAFC;
+      --domain-border: #E2E8F0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #FFFFFF;
+      color: #1E293B;
+      line-height: 1.5;
+    }
+    /* Domain Navigation Bar */
+    .domain-navbar {
+      height: 64px;
+      border-bottom: 1px solid var(--domain-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: #FFFFFF;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .domain-logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #00875A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .domain-nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+    }
+    .domain-nav-links span { cursor: pointer; }
+    .domain-nav-links span.active { color: #00875A; border-bottom: 2px solid #00875A; padding-bottom: 20px; }
+    
+    /* Listing Container */
+    .listing-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px 80px 20px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 8px;
+      height: 480px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .side-gallery {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 8px;
+      height: 100%;
+    }
+    .side-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Listing Header & Details */
+    .details-columns {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr;
+      gap: 40px;
+    }
+    .price-guide-tag {
+      font-size: 13px;
+      font-weight: 700;
+      color: #00875A;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .price-display {
+      font-size: 36px;
+      font-weight: 800;
+      color: #0F172A;
+      margin: 4px 0 8px 0;
+      letter-spacing: -1px;
+    }
+    .address-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1E293B;
+      margin-bottom: 8px;
+    }
+    .specs-row {
+      display: flex;
+      gap: 18px;
+      font-size: 15px;
+      color: #475569;
+      margin-bottom: 20px;
+    }
+    .specs-row span strong { color: #0F172A; }
+    .agent-pitch-text {
+      font-size: 16px;
+      color: #334155;
+      line-height: 1.6;
+      margin: 20px 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--domain-border);
+    }
+    
+    /* Sticky Agent Box */
+    .agent-card {
+      border: 1px solid var(--domain-border);
+      border-radius: 12px;
+      padding: 24px;
+      background: #FFFFFF;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      height: fit-content;
+    }
+    .agent-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .agent-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #CBD5E1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #475569;
+    }
+    .agent-btn {
+      width: 100%;
+      background: #00875A;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+    .agent-btn-outline {
+      width: 100%;
+      background: white;
+      border: 1px solid #CBD5E1;
+      color: #1E293B;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="domain-navbar">
+    <div class="domain-logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="#00875A"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/></svg>
+      <span>domain</span>
+    </div>
+    <div class="domain-nav-links">
+      <span class="active">Buy</span>
+      <span>Rent</span>
+      <span>New homes</span>
+      <span>Sold</span>
+      <span>News</span>
+      <span>Commercial</span>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="listing-layout">
+    <!-- Gallery -->
+    <div class="gallery-grid">
+      <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80" alt="Hero Living Room" class="hero-img">
+      <div class="side-gallery">
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" alt="Kitchen" class="side-img">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" alt="Balcony View" class="side-img">
+      </div>
+    </div>
+
+    <!-- Details -->
+    <div class="details-columns">
+      <div class="main-info">
+        <span class="price-guide-tag">For Sale • Auction Guide</span>
+        <div class="price-display" data-testid="listing-details__price">$720,000</div>
+        
+        <!-- MICROTRUTH IN-PAGE REALITY BADGE (Injected automatically) -->
+        <div id="microtruth-inpage-badge" class="microtruth-badge-container">
+          <div class="microtruth-header">
+            <div class="microtruth-brand">
+              <span class="microtruth-brand-icon">M</span>
+              <span>Microburbs Reality Check</span>
+            </div>
+            <span class="microtruth-status-pill microtruth-pill-moderate">⚡ Likely Underquote (+11.9%)</span>
+          </div>
+          <div class="microtruth-body">
+            <div class="microtruth-stats">
+              <div class="microtruth-avm-row">
+                <span class="microtruth-avm-label">Microburbs AVM:</span>
+                <span class="microtruth-avm-val">$805,500</span>
+                <span class="microtruth-avm-range">($628k – $983k)</span>
+              </div>
+              <div class="microtruth-traps-row">
+                <span class="microtruth-trap-tag">🛡️ Flood Zone Within 545m</span>
+                <span class="microtruth-trap-tag">🛡️ 16 Social Housing Within 200m</span>
+              </div>
+            </div>
+            <button id="microtruth-inspect-btn" class="microtruth-btn-inspect">Inspect Full Truth →</button>
+          </div>
+        </div>
+
+        <h1 class="address-title" data-testid="listing-details__address">Unit 105, 8 Sam Sing Street, Waterloo NSW 2017</h1>
+        
+        <div class="specs-row">
+          <span>🛏️ <strong>1</strong> Bed</span>
+          <span>🛁 <strong>1</strong> Bath</span>
+          <span>🚗 <strong>0</strong> Parking</span>
+          <span>🏢 <strong>Apartment</strong></span>
+        </div>
+
+        <p class="agent-pitch-text">
+          Quiet sanctuary in the heart of Waterloo! Ideal for first-home buyers or savvy investors looking for high yields.
+          Positioned within the architectural 'Divercity' complex, this stylish apartment captures abundant natural light and features open-plan living, stone kitchen benchtops, and a generous entertainer's terrace.
+        </p>
+      </div>
+
+      <!-- Agent Box -->
+      <div class="agent-card">
+        <div class="agent-header">
+          <div class="agent-avatar">MB</div>
+          <div>
+            <div style="font-weight: 700; color: #0F172A;">Marcus Bell</div>
+            <div style="font-size: 13px; color: #64748B;">Sydney Prestige Realty</div>
+          </div>
+        </div>
+        <button class="agent-btn">Contact Agent</button>
+        <button class="agent-btn-outline">Request Contract</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating HUD in bottom right corner -->
+  <div id="microtruth-hud-trigger" class="microtruth-floating-hud">
+    <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#38BDF8;box-shadow:0 0 8px #38BDF8;"></span>
+    <span>MicroTruth: +11.9% Underquote</span>
+  </div>
+
+  <!-- In-Page Slide-out Drawer Container -->
+  <div id="microtruth-inpage-drawer" class="microtruth-drawer-container">
+    <div class="microtruth-drawer-backdrop" id="microtruth-drawer-backdrop"></div>
+    <div class="microtruth-drawer-content">
+      <button class="microtruth-drawer-close-btn" id="microtruth-drawer-x" title="Close Panel">✕</button>
+      <iframe src="/extension/sidepanel/sidepanel.html" class="microtruth-drawer-frame"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById("microtruth-inspect-btn");
+    const hud = document.getElementById("microtruth-hud-trigger");
+    const drawer = document.getElementById("microtruth-inpage-drawer");
+    const closeBackdrop = document.getElementById("microtruth-drawer-backdrop");
+    const closeX = document.getElementById("microtruth-drawer-x");
+
+    function openDrawer() {
+      drawer.classList.add("open");
+    }
+    function closeDrawer() {
+      drawer.classList.remove("open");
+    }
+
+    if (btn) btn.addEventListener("click", openDrawer);
+    if (hud) hud.addEventListener("click", openDrawer);
+    if (closeBackdrop) closeBackdrop.addEventListener("click", closeDrawer);
+    if (closeX) closeX.addEventListener("click", closeDrawer);
+  </script>
+</body>
+</html>
