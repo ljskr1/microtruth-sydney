@@ -89,6 +89,11 @@ class MicroburbsClient:
         quoted = urllib.parse.quote(suburb)
         return await self._get(f"/v1/suburbs/{quoted}/market/all")
 
+    async def get_suburb_boundary(self, suburb: str) -> Optional[Dict[str, Any]]:
+        """GeoJSON polygon boundary for the suburb."""
+        quoted = urllib.parse.quote(suburb)
+        return await self._get(f"/v1/suburbs/{quoted}/shapes/boundary")
+
     async def get_suburb_noise(self, suburb: str) -> Optional[Dict[str, Any]]:
         """GeoJSON traffic & arterial noise heatmap."""
         quoted = urllib.parse.quote(suburb)
@@ -120,7 +125,7 @@ class MicroburbsClient:
         suburb = primary.get("sal", "Sydney")
 
         # Gather all property intelligence in parallel
-        basics, valuation, risks, public_housing, development, nearby, suburb_market = await asyncio.gather(
+        basics, valuation, risks, public_housing, development, nearby, suburb_market, suburb_boundary = await asyncio.gather(
             self.get_basics(gnaf_id),
             self.get_valuation(gnaf_id),
             self.get_risks(gnaf_id),
@@ -128,6 +133,7 @@ class MicroburbsClient:
             self.get_development(gnaf_id),
             self.get_nearby_for_sale(gnaf_id),
             self.get_suburb_market(suburb),
+            self.get_suburb_boundary(suburb),
             return_exceptions=True,
         )
 
@@ -139,6 +145,7 @@ class MicroburbsClient:
         development = development if isinstance(development, dict) else {}
         nearby = nearby if isinstance(nearby, dict) else {}
         suburb_market = suburb_market if isinstance(suburb_market, dict) else {}
+        suburb_boundary = suburb_boundary if isinstance(suburb_boundary, dict) else {}
 
         # 1. Underquoting & Pricing Verdict
         avm_price = valuation.get("predicted_price")
@@ -263,6 +270,7 @@ class MicroburbsClient:
                 "median_rent": suburb_market.get("median_rent"),
                 "days_on_market": suburb_market.get("days_on_market"),
             },
+            "suburb_boundary": suburb_boundary.get("data", suburb_boundary) if isinstance(suburb_boundary, dict) else {},
         }
 
     def generate_negotiation_letter(

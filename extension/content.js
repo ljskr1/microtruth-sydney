@@ -160,8 +160,38 @@
     if (btn) {
       btn.addEventListener("click", () => {
         chrome.runtime.sendMessage({ type: "OPEN_SIDEPANEL" });
+        toggleInPageDrawer(analysis);
       });
     }
+  }
+
+  // Toggle in-page sliding drawer for instant side-by-side inspection
+  function toggleInPageDrawer(analysis) {
+    let drawer = document.getElementById("microtruth-inpage-drawer");
+    if (!drawer) {
+      drawer = document.createElement("div");
+      drawer.id = "microtruth-inpage-drawer";
+      drawer.className = "microtruth-drawer-container";
+      
+      const frameUrl = chrome.runtime.getURL("sidepanel/sidepanel.html");
+      drawer.innerHTML = `
+        <div class="microtruth-drawer-backdrop" id="microtruth-drawer-backdrop"></div>
+        <div class="microtruth-drawer-content">
+          <button class="microtruth-drawer-close-btn" id="microtruth-drawer-x" title="Close Panel">✕</button>
+          <iframe src="${frameUrl}" class="microtruth-drawer-frame"></iframe>
+        </div>
+      `;
+      document.body.appendChild(drawer);
+
+      document.getElementById("microtruth-drawer-backdrop").addEventListener("click", () => {
+        drawer.classList.remove("open");
+      });
+      document.getElementById("microtruth-drawer-x").addEventListener("click", () => {
+        drawer.classList.remove("open");
+      });
+    }
+
+    drawer.classList.toggle("open");
   }
 
   // Inject floating corner HUD
@@ -181,6 +211,7 @@
 
     hud.addEventListener("click", () => {
       chrome.runtime.sendMessage({ type: "OPEN_SIDEPANEL" });
+      toggleInPageDrawer(analysis);
     });
 
     document.body.appendChild(hud);

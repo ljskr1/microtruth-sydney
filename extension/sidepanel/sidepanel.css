@@ -559,3 +559,165 @@ body {
   resize: vertical;
   outline: none;
 }
+
+/* Suburb Map */
+.suburb-map-wrapper {
+  background: #0B132B;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.suburb-polygon-svg {
+  width: 100%;
+  height: 160px;
+}
+
+/* Rent Estimate Card */
+.rent-breakdown-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.rent-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.rent-box.with-car {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.rent-box-label {
+  display: block;
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rent-box-val {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-top: 2px;
+}
+
+.parking-premium-banner {
+  margin-top: 8px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 11px;
+  color: var(--accent-cyan);
+  text-align: center;
+}
+
+/* Building Comps Card */
+.building-summary-badges {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.summary-pill {
+  flex: 1;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-label {
+  font-size: 9px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.summary-pill strong {
+  font-size: 13px;
+  color: #FFFFFF;
+  margin-top: 2px;
+}
+
+.comps-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 6px;
+}
+
+.comp-tab {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.comp-tab.active {
+  background: var(--bg-secondary);
+  color: var(--accent-cyan);
+}
+
+.comp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 11px;
+}
+
+.comp-row:last-child {
+  border-bottom: none;
+}
+
+.comp-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.comp-unit {
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.comp-date {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.comp-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.comp-price {
+  font-weight: 700;
+  color: var(--accent-cyan);
+}
+
+.comp-specs {
+  font-size: 10px;
+  color: var(--text-secondary);
+}

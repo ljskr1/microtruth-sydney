@@ -215,6 +215,11 @@ async def get_social_card_data(
     }
     return card_data
 
+# Mount extension directory for local preview and testing
+ext_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "extension"))
+if os.path.exists(ext_dir):
+    app.mount("/extension", StaticFiles(directory=ext_dir, html=True), name="extension_preview")
+
 # Mount web showcase at root so visiting http://localhost:8000 loads the full interactive app
 web_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "web"))
 if os.path.exists(web_dir):
