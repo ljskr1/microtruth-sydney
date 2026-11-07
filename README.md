@@ -11,12 +11,15 @@ Repository: [https://github.com/ljskr1/microtruth-sydney](https://github.com/ljs
 
 | Deliverable | Specification | File Location |
 | :--- | :--- | :--- |
-| Pitch Video | 29.06s, 1080p Full HD, 22.1 MB | `submission/pitch.mp4` |
-| Demo Video | 2m15s, 1080p Full HD, 1.1 MB | `submission/demo.mp4` |
-| Task 4 Rents CSV | Exactly 65,777 rows, verified format | `submission/rents_oneshot.csv` |
-| Task 5 Valuation CSV | Exactly 181,711 rows, verified format | `submission/valuation_oneshot.csv` |
-| Technical Report | Structured HTML validation report | `submission/report.html` (also at `report.html`) |
-| Submission Verification | Automated validation script | `scripts/verify_submissions.py` |
+| **Pitch Video** | **41.93s**, 1080p Full HD @ 60fps, 78.18 MB | [`submission/pitch.mp4`](submission/pitch.mp4) ([Direct Stream](https://github.com/ljskr1/microtruth-sydney/raw/main/submission/pitch.mp4)) |
+| **Demo Video** | **90.80s (1.51m)**, 1080p Full HD, 3.1 MB, Australian Neural Voice | [`submission/demo.mp4`](submission/demo.mp4) ([Direct Stream](https://github.com/ljskr1/microtruth-sydney/raw/main/submission/demo.mp4)) |
+| **Interactive Pitch Deck** | HTML5, 7 slides, dual AU/Kokoro audio switcher, Presenter HUD | [`presentation/pitch_deck.html`](presentation/pitch_deck.html) |
+| **PowerPoint Pitch Deck** | 16:9 widescreen, custom styling, full speaker notes | [`presentation/pitch_deck.pptx`](presentation/pitch_deck.pptx) |
+| **Task 4 Rents CSV** | Exactly 65,777 rows, verified format ($59.16 MAE) | [`submission/rents_oneshot.csv`](submission/rents_oneshot.csv) |
+| **Task 5 Valuation CSV** | Exactly 181,711 rows, verified format (100% positive ints) | [`submission/valuation_oneshot.csv`](submission/valuation_oneshot.csv) |
+| **Technical Report** | Structured HTML validation report & held-out checks | [`submission/report.html`](submission/report.html) (also at [`report.html`](report.html)) |
+| **Submission Verification** | Automated validation script | [`scripts/verify_submissions.py`](scripts/verify_submissions.py) |
+| **UI Integrity Test** | Automated Playwright headless assertion suite | [`scripts/test_ui_integrity.mjs`](scripts/test_ui_integrity.mjs) |
 
 ---
 
