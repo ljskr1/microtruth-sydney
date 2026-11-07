@@ -8,17 +8,16 @@
 </head>
 <body>
   <div class="panel-container">
-    <!-- Top Bar -->
-    <header class="panel-header">
-      <div class="brand">
-        <div class="brand-logo">M</div>
-        <div>
-          <h1 class="brand-title">MicroTruth Sydney</h1>
-          <p class="brand-subtitle">Microburbs Reality Engine</p>
-        </div>
+    <!-- macOS Window Chrome Header -->
+    <div class="macos-window-header">
+      <div class="macos-traffic-lights">
+        <span class="traffic-light close"></span>
+        <span class="traffic-light minimize"></span>
+        <span class="traffic-light zoom"></span>
       </div>
-      <div id="connection-status" class="status-indicator online">Connected</div>
-    </header>
+      <div class="macos-window-title">MicroTruth Sydney Pro</div>
+      <div id="connection-status" class="status-indicator online">● LIVE</div>
+    </div>
 
     <!-- Demo Listing Selector for quick testing -->
     <div class="selector-card">
@@ -119,9 +118,9 @@
           </div>
         </div>
 
-        <div class="comps-tabs">
-          <button id="tab-sales" class="comp-tab active">Past Sales (<span id="comps-sales-count">5</span>)</button>
-          <button id="tab-leases" class="comp-tab">Past Leases (<span id="comps-leases-count">5</span>)</button>
+        <div class="apple-segmented-control" role="tablist">
+          <button id="tab-sales" class="segmented-item active" role="tab" aria-selected="true">Past Sales (<span id="comps-sales-count">5</span>)</button>
+          <button id="tab-leases" class="segmented-item" role="tab" aria-selected="false">Past Leases (<span id="comps-leases-count">5</span>)</button>
         </div>
 
         <div id="comps-sales-list" class="comps-table-container">
@@ -175,16 +174,16 @@
           <span id="map-suburb-name" class="tag tag-blue">Waterloo</span>
         </div>
         
-        <!-- View Mode Switcher -->
-        <div class="map-view-switcher">
-          <button id="view-mode-map" class="map-tab active">🗺️ Boundary Map</button>
-          <button id="view-mode-satellite" class="map-tab">🛰️ Aerial 3D</button>
-          <button id="view-mode-streetview" class="map-tab">📸 Street View</button>
+        <!-- Apple HIG Segmented Control -->
+        <div class="apple-segmented-control map-segmented-control" role="tablist">
+          <button id="view-mode-map" class="segmented-item active" role="tab" aria-selected="true">Boundary Map</button>
+          <button id="view-mode-satellite" class="segmented-item" role="tab" aria-selected="false">Satellite 3D</button>
+          <button id="view-mode-streetview" class="segmented-item" role="tab" aria-selected="false">Street View</button>
         </div>
 
         <div id="suburb-map-wrapper" class="suburb-map-wrapper">
-          <!-- Interactive Google Map container -->
-          <div id="google-map-container" class="google-map-container"></div>
+          <!-- Interactive Google Map via local secure proxy (Bypasses MV3 extension CSP) -->
+          <iframe id="google-map-iframe" class="google-map-iframe" src="http://127.0.0.1:8000/api/maps/interactive?lat=-33.9016&lng=151.2120&suburb=Waterloo" frameborder="0"></iframe>
           
           <!-- Satellite Static fallback / view -->
           <div id="satellite-container" class="satellite-container" style="display: none;">
@@ -204,9 +203,9 @@
           </svg>
         </div>
         <div class="map-legend">
-          <span><strong style="color:#38BDF8;">■</strong> Official Boundary</span>
-          <span><strong style="color:#F59E0B;">●</strong> Property</span>
-          <span><strong style="color:#10B981;">●</strong> 5 Building Sales</span>
+          <span><strong style="color:var(--apple-blue);">■</strong> Official Boundary</span>
+          <span><strong style="color:var(--apple-orange);">●</strong> Property</span>
+          <span><strong style="color:var(--apple-green);">●</strong> 5 Building Sales</span>
         </div>
       </section>
 

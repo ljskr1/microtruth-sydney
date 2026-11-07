@@ -1,142 +1,189 @@
-/* MicroTruth Sydney Side Panel Styles */
+/* ==========================================================================
+   MicroTruth Sydney — Apple Design System & Human Interface Guidelines (HIG)
+   Designed according to Apple HIG (macOS Sequoia / iOS 18) & Frontend Design Standards
+   ========================================================================== */
+
 :root {
-  --bg-primary: #0B0F19;
-  --bg-secondary: #131B2E;
-  --bg-card: rgba(26, 36, 56, 0.7);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --accent-cyan: #38BDF8;
-  --accent-blue: #0284C7;
-  --accent-green: #10B981;
-  --accent-amber: #F59E0B;
-  --accent-red: #EF4444;
-  --radius-lg: 12px;
-  --radius-md: 8px;
-  --radius-sm: 4px;
+  /* Apple OLED Dark Palette */
+  --apple-bg-base: #000000;
+  --apple-bg-card: rgba(28, 28, 30, 0.72);
+  --apple-bg-elevated: rgba(44, 44, 46, 0.85);
+  --apple-bg-grouped: rgba(58, 58, 60, 0.6);
+  --apple-track: rgba(120, 120, 128, 0.24);
+  
+  /* Apple Hairline Borders */
+  --apple-separator: rgba(255, 255, 255, 0.12);
+  --apple-separator-subtle: rgba(255, 255, 255, 0.06);
+
+  /* Apple Typography Colors */
+  --apple-label-primary: #FFFFFF;
+  --apple-label-secondary: rgba(235, 235, 245, 0.60);
+  --apple-label-tertiary: rgba(235, 235, 245, 0.35);
+
+  /* Apple System Colors */
+  --apple-blue: #0A84FF;
+  --apple-blue-hover: #0077ED;
+  --apple-green: #30D158;
+  --apple-orange: #FF9F0A;
+  --apple-red: #FF453A;
+  --apple-indigo: #5E5CE6;
+
+  /* Continuous Squircle Radiuses */
+  --radius-card: 14px;
+  --radius-control: 8px;
+  --radius-pill: 9999px;
+
+  /* Apple Spring Transitions */
+  --apple-spring: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
+  background-color: var(--apple-bg-base);
+  color: var(--apple-label-primary);
   line-height: 1.45;
   font-size: 13px;
   overflow-x: hidden;
+  letter-spacing: -0.011em;
 }
 
 .panel-container {
-  padding: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   max-width: 440px;
   margin: 0 auto;
 }
 
-/* Header */
-.panel-header {
+/* ==========================================================================
+   macOS Window Chrome Header
+   ========================================================================== */
+
+.macos-window-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-color);
+  padding: 4px 6px 12px 6px;
+  border-bottom: 1px solid var(--apple-separator-subtle);
 }
 
-.brand {
+.macos-traffic-lights {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
 }
 
-.brand-logo {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 15px;
-  color: white;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+.traffic-light {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
 }
 
-.brand-title {
-  font-size: 15px;
-  font-weight: 700;
+.traffic-light.close {
+  background-color: #FF5F57;
+  border: 0.5px solid #E0443E;
+}
+
+.traffic-light.minimize {
+  background-color: #FEBC2E;
+  border: 0.5px solid #D89E24;
+}
+
+.traffic-light.zoom {
+  background-color: #28C840;
+  border: 0.5px solid #1AAB29;
+}
+
+.macos-window-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--apple-label-secondary);
   letter-spacing: -0.01em;
-}
-
-.brand-subtitle {
-  font-size: 11px;
-  color: var(--text-muted);
 }
 
 .status-indicator {
   font-size: 10px;
   font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 9999px;
-  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.02em;
 }
 
 .status-indicator.online {
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--accent-green);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(48, 209, 88, 0.16);
+  color: var(--apple-green);
+  border: 1px solid rgba(48, 209, 88, 0.3);
 }
 
-/* Selector Card */
+/* ==========================================================================
+   Property Selector Card (Apple Inset Style)
+   ========================================================================== */
+
 .selector-card {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  background: var(--bg-secondary);
-  padding: 10px 12px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
+  gap: 5px;
 }
 
 .selector-label {
-  font-size: 11px;
-  color: var(--text-secondary);
+  font-size: 10.5px;
+  color: var(--apple-label-secondary);
   font-weight: 600;
+  letter-spacing: 0.02em;
+  padding-left: 2px;
 }
 
 .selector-dropdown {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  padding: 6px 8px;
-  font-size: 12px;
+  background: var(--apple-bg-card);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid var(--apple-separator);
+  border-radius: var(--radius-control);
+  color: var(--apple-label-primary);
+  padding: 8px 10px;
+  font-size: 12.5px;
+  font-weight: 600;
   outline: none;
   cursor: pointer;
+  transition: all 0.2s var(--apple-spring);
 }
 
 .selector-dropdown:focus {
-  border-color: var(--accent-cyan);
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.3);
 }
 
-/* Cards generic */
+/* ==========================================================================
+   Card System (Apple Secondary System Background + Liquid Glass)
+   ========================================================================== */
+
 .card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 14px;
+  background: var(--apple-bg-card);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid var(--apple-separator);
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .card-header {
@@ -146,417 +193,49 @@ body {
 }
 
 .card-header h3 {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
-  color: var(--text-primary);
+  letter-spacing: -0.015em;
+  color: var(--apple-label-primary);
 }
 
 .section-desc {
   font-size: 11px;
-  color: var(--text-secondary);
-}
-
-/* Badges & Tags */
-.badge-row {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.tag {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.tag-blue {
-  background: rgba(56, 189, 248, 0.15);
-  color: var(--accent-cyan);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-}
-
-.tag-gray {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-secondary);
-}
-
-.tag-mono {
-  font-family: monospace;
-  background: rgba(0, 0, 0, 0.3);
-  color: #CBD5E1;
-}
-
-.tag-green {
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--accent-green);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.verdict-pill {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 9999px;
-}
-
-.pill-severe {
-  background: rgba(239, 68, 68, 0.2);
-  color: var(--accent-red);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-}
-
-.pill-moderate {
-  background: rgba(245, 158, 11, 0.2);
-  color: var(--accent-amber);
-  border: 1px solid rgba(245, 158, 11, 0.4);
-}
-
-.pill-fair {
-  background: rgba(16, 185, 129, 0.2);
-  color: var(--accent-green);
-  border: 1px solid rgba(16, 185, 129, 0.4);
-}
-
-/* Property card */
-.property-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #FFFFFF;
-}
-
-.property-specs {
-  display: flex;
-  gap: 14px;
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-/* Valuation Grid */
-.valuation-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.val-box {
-  background: rgba(0, 0, 0, 0.25);
-  padding: 10px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.microburbs-box {
-  border-color: rgba(56, 189, 248, 0.3);
-  background: rgba(56, 189, 248, 0.05);
-}
-
-.box-label {
-  font-size: 10px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.box-value {
-  font-size: 16px;
-  font-weight: 800;
-  color: #FFFFFF;
-}
-
-.box-sub {
-  font-size: 10px;
-  color: var(--text-secondary);
-}
-
-/* Progress bar */
-.confidence-bar-container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.confidence-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-
-.progress-track {
-  width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
-  border-radius: 9999px;
-  transition: width 0.4s ease;
-}
-
-.human-summary-text {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 8px 10px;
-  border-radius: var(--radius-sm);
-  border-left: 3px solid var(--accent-amber);
-}
-
-/* Traps list */
-.traps-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.trap-item {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 8px 10px;
-  border-radius: var(--radius-md);
-  border-left: 3px solid var(--accent-cyan);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.trap-item.warning {
-  border-left-color: var(--accent-amber);
-}
-
-.trap-item.critical {
-  border-left-color: var(--accent-red);
-}
-
-.trap-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: #FFFFFF;
-}
-
-.trap-detail {
-  font-size: 11px;
-  color: var(--text-secondary);
-}
-
-/* Market Metrics */
-.market-metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  text-align: center;
-}
-
-.metric-item {
-  background: rgba(0, 0, 0, 0.25);
-  padding: 8px 4px;
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.metric-num {
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--accent-cyan);
-}
-
-.metric-label {
-  font-size: 9px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-/* Financial Cash Flow & Ownership Reality */
-.cashflow-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.cashflow-box {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.cashflow-box.highlight-cost {
-  background: rgba(239, 68, 68, 0.08);
-  border-color: rgba(239, 68, 68, 0.25);
-}
-
-.cashflow-box.highlight-income {
-  background: rgba(16, 185, 129, 0.08);
-  border-color: rgba(16, 185, 129, 0.25);
-}
-
-.cashflow-label {
-  font-size: 10px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--text-muted);
-}
-
-.cashflow-val {
-  font-size: 15px;
-  font-weight: 800;
-  color: #FFFFFF;
-}
-
-.cashflow-box.highlight-income .cashflow-val {
-  color: #34D399;
-}
-
-.cashflow-box.highlight-cost .cashflow-val {
-  color: #F87171;
-}
-
-.cashflow-sub {
-  font-size: 10px;
-  color: var(--text-muted);
-}
-
-.cashflow-bottom-banner {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  font-size: 11.5px;
-  color: var(--text-secondary);
-  text-align: center;
-}
-
-.btn {
-  padding: 8px 12px;
-  border-radius: var(--radius-md);
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-  color: #FFFFFF;
-}
-
-.btn-primary:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.14);
-}
-
-.btn-block {
-  width: 100%;
-}
-
-/* Offer Letter */
-.offer-input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.offer-input-group label {
-  font-size: 11px;
-  color: var(--text-secondary);
-  font-weight: 600;
-}
-
-.offer-input {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  padding: 8px 10px;
-  color: #FFFFFF;
-  font-size: 13px;
-  font-weight: 700;
-  outline: none;
-}
-
-.offer-input:focus {
-  border-color: var(--accent-cyan);
-}
-
-.letter-box {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 6px;
-}
-
-.letter-textarea {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 10px;
-  color: #CBD5E1;
-  font-family: monospace;
-  font-size: 11px;
+  color: var(--apple-label-secondary);
   line-height: 1.4;
-  resize: vertical;
-  outline: none;
+  margin-top: -4px;
 }
 
-/* Suburb Map & Google Geospatial Cockpit */
+/* ==========================================================================
+   High-Stakes Decision Action Banner
+   ========================================================================== */
+
 .decision-alert-banner {
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.35);
-  border-radius: var(--radius-md);
+  background: rgba(255, 69, 58, 0.12);
+  border: 1px solid rgba(255, 69, 58, 0.35);
+  border-radius: var(--radius-card);
   padding: 12px 14px;
   display: flex;
   gap: 12px;
   align-items: flex-start;
-  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
+  box-shadow: 0 4px 16px rgba(255, 69, 58, 0.12);
 }
 
 .decision-alert-banner.moderate {
-  background: rgba(245, 158, 11, 0.12);
-  border-color: rgba(245, 158, 11, 0.35);
-  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15);
+  background: rgba(255, 159, 10, 0.12);
+  border-color: rgba(255, 159, 10, 0.35);
+  box-shadow: 0 4px 16px rgba(255, 159, 10, 0.12);
 }
 
 .decision-alert-banner.fair {
-  background: rgba(16, 185, 129, 0.12);
-  border-color: rgba(16, 185, 129, 0.35);
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15);
+  background: rgba(48, 209, 88, 0.12);
+  border-color: rgba(48, 209, 88, 0.35);
+  box-shadow: 0 4px 16px rgba(48, 209, 88, 0.12);
 }
 
 .decision-alert-icon {
-  font-size: 20px;
-  line-height: 1;
+  font-size: 18px;
+  line-height: 1.2;
 }
 
 .decision-alert-body {
@@ -566,65 +245,244 @@ body {
 }
 
 .decision-alert-title {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 800;
   letter-spacing: 0.02em;
-  color: #FCA5A5;
+  color: #FF857F;
   text-transform: uppercase;
 }
 
 .decision-alert-banner.moderate .decision-alert-title {
-  color: #FCD34D;
+  color: #FFC073;
 }
 
 .decision-alert-banner.fair .decision-alert-title {
-  color: #6EE7B7;
+  color: #7BE99B;
 }
 
 .decision-alert-desc {
   font-size: 11.5px;
-  color: #E2E8F0;
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.4;
 }
 
-.map-view-switcher {
+/* ==========================================================================
+   Property Specs Card
+   ========================================================================== */
+
+.badge-row {
   display: flex;
+  align-items: center;
   gap: 6px;
-  margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
-.map-tab {
-  flex: 1;
-  padding: 6px 4px;
-  font-size: 11px;
+.tag {
+  font-size: 10px;
   font-weight: 700;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-color);
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.02em;
+}
+
+.tag-blue {
+  background: rgba(10, 132, 255, 0.18);
+  color: var(--apple-blue);
+  border: 1px solid rgba(10, 132, 255, 0.32);
+}
+
+.tag-gray {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--apple-label-secondary);
+  border: 1px solid var(--apple-separator);
+}
+
+.tag-mono {
+  font-family: -apple-system-ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--apple-label-tertiary);
+  border: 1px solid var(--apple-separator-subtle);
+}
+
+.tag-green {
+  background: rgba(48, 209, 88, 0.18);
+  color: var(--apple-green);
+  border: 1px solid rgba(48, 209, 88, 0.32);
+}
+
+.property-title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  color: var(--apple-label-primary);
+  line-height: 1.3;
+}
+
+.property-specs {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--apple-label-secondary);
+}
+
+.property-specs strong {
+  color: var(--apple-label-primary);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Valuation Reality Check
+   ========================================================================== */
+
+.valuation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.val-box {
+  background: var(--apple-bg-elevated);
+  border: 1px solid var(--apple-separator);
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.box-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--apple-label-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.box-value {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  color: var(--apple-label-primary);
+}
+
+.microburbs-box .box-value {
+  color: var(--apple-blue);
+}
+
+.box-sub {
+  font-size: 10px;
+  color: var(--apple-label-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.confidence-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.confidence-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--apple-label-secondary);
+  font-weight: 600;
+}
+
+.progress-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--apple-blue), var(--apple-green));
+  border-radius: var(--radius-pill);
+  transition: width 0.4s var(--apple-spring);
+}
+
+.human-summary-text {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.45;
+}
+
+/* ==========================================================================
+   Apple Native Segmented Control (iOS 18 / macOS Sequoia Style)
+   ========================================================================== */
+
+.apple-segmented-control {
+  display: flex;
+  background: var(--apple-track);
+  padding: 2px;
+  border-radius: var(--radius-control);
+  gap: 2px;
+  user-select: none;
+}
+
+.segmented-item {
+  flex: 1;
+  padding: 5px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--apple-label-secondary);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s var(--apple-spring);
   text-align: center;
+  white-space: nowrap;
 }
 
-.map-tab.active {
-  background: rgba(56, 189, 248, 0.18);
-  color: var(--accent-cyan);
-  border-color: rgba(56, 189, 248, 0.45);
+.segmented-item:hover {
+  color: var(--apple-label-primary);
 }
 
-.google-map-container {
+.segmented-item.active {
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--apple-label-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Geospatial Cockpit & Google Maps Embed
+   ========================================================================== */
+
+.suburb-map-wrapper {
+  background: #000000;
+  border: 1px solid var(--apple-separator);
+  border-radius: var(--radius-control);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  height: 200px;
+}
+
+.google-map-container, .google-map-iframe {
   width: 100%;
   height: 200px;
-  border-radius: var(--radius-sm);
-  background: #0F172A;
+  border: none;
+  border-radius: var(--radius-control);
+  display: block;
 }
 
 .satellite-container, .streetview-container {
   position: relative;
   width: 100%;
   height: 200px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-control);
   overflow: hidden;
 }
 
@@ -639,184 +497,346 @@ body {
   position: absolute;
   bottom: 8px;
   left: 8px;
-  background: rgba(15, 23, 42, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 4px 8px;
-  font-size: 10px;
+  background: rgba(0, 0, 0, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 3px 8px;
+  font-size: 9.5px;
   font-weight: 700;
   border-radius: 4px;
   color: white;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
 }
 
 .map-legend {
   display: flex;
   justify-content: space-between;
   font-size: 10px;
-  color: var(--text-muted);
-  margin-top: 8px;
-  padding: 0 4px;
+  color: var(--apple-label-tertiary);
+  padding: 0 2px;
 }
 
-.suburb-map-wrapper {
-  background: #0B132B;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  position: relative;
-}
+/* ==========================================================================
+   Inside This Building: Verified Comps Ledger
+   ========================================================================== */
 
-.suburb-polygon-svg {
-  width: 100%;
-  height: 160px;
-}
-
-/* Rent Estimate Card */
-.rent-breakdown-grid {
+.building-summary-badges {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: 6px;
-}
-
-.rent-box {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  padding: 8px 10px;
-  text-align: center;
-}
-
-.rent-box.with-car {
-  border-color: rgba(56, 189, 248, 0.4);
-}
-
-.rent-box-label {
-  display: block;
-  font-size: 10px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.rent-box-val {
-  display: block;
-  font-size: 15px;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin-top: 2px;
-}
-
-.parking-premium-banner {
-  margin-top: 8px;
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  border-radius: var(--radius-sm);
-  padding: 6px 10px;
-  font-size: 11px;
-  color: var(--accent-cyan);
-  text-align: center;
-}
-
-/* Building Comps Card */
-.building-summary-badges {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
 }
 
 .summary-pill {
-  flex: 1;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  padding: 6px 8px;
-  font-size: 11px;
+  background: var(--apple-bg-elevated);
+  border: 1px solid var(--apple-separator);
+  border-radius: var(--radius-control);
+  padding: 7px 10px;
   display: flex;
   flex-direction: column;
 }
 
 .summary-label {
-  font-size: 9px;
-  color: var(--text-secondary);
+  font-size: 9.5px;
+  color: var(--apple-label-secondary);
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 .summary-pill strong {
-  font-size: 13px;
-  color: #FFFFFF;
-  margin-top: 2px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--apple-label-primary);
+  font-variant-numeric: tabular-nums;
+  margin-top: 1px;
 }
 
-.comps-tabs {
+.comps-table-container {
   display: flex;
+  flex-direction: column;
   gap: 6px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 6px;
-}
-
-.comp-tab {
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
-}
-
-.comp-tab.active {
-  background: var(--bg-secondary);
-  color: var(--accent-cyan);
 }
 
 .comp-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  font-size: 11px;
+  padding: 7px 10px;
+  background: var(--apple-bg-elevated);
+  border: 1px solid var(--apple-separator-subtle);
+  border-radius: var(--radius-control);
+  transition: background 0.15s ease;
 }
 
-.comp-row:last-child {
-  border-bottom: none;
+.comp-row:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .comp-left {
   display: flex;
   flex-direction: column;
+  gap: 1px;
 }
 
 .comp-unit {
-  font-weight: 600;
-  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--apple-label-primary);
 }
 
 .comp-date {
   font-size: 10px;
-  color: var(--text-secondary);
+  color: var(--apple-label-tertiary);
+  font-variant-numeric: tabular-nums;
 }
 
 .comp-right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  gap: 1px;
 }
 
 .comp-price {
-  font-weight: 700;
-  color: var(--accent-cyan);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--apple-green);
+  font-variant-numeric: tabular-nums;
 }
 
 .comp-specs {
   font-size: 10px;
-  color: var(--text-secondary);
+  color: var(--apple-label-secondary);
+}
+
+/* ==========================================================================
+   Hidden Trap Radar & Livability Overlays
+   ========================================================================== */
+
+.traps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.trap-item {
+  background: var(--apple-bg-elevated);
+  border: 1px solid var(--apple-separator-subtle);
+  border-radius: var(--radius-control);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trap-item.warning {
+  border-left: 3px solid var(--apple-orange);
+}
+
+.trap-item.critical {
+  border-left: 3px solid var(--apple-red);
+}
+
+.trap-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--apple-label-primary);
+}
+
+.trap-detail {
+  font-size: 10.5px;
+  color: var(--apple-label-secondary);
+  line-height: 1.35;
+}
+
+/* ==========================================================================
+   Ownership & Cash Flow Reality Matrix
+   ========================================================================== */
+
+.cashflow-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.cashflow-box {
+  background: var(--apple-bg-elevated);
+  border: 1px solid var(--apple-separator-subtle);
+  border-radius: var(--radius-control);
+  padding: 9px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cashflow-box.highlight-cost {
+  background: rgba(255, 69, 58, 0.09);
+  border-color: rgba(255, 69, 58, 0.25);
+}
+
+.cashflow-box.highlight-income {
+  background: rgba(48, 209, 88, 0.09);
+  border-color: rgba(48, 209, 88, 0.25);
+}
+
+.cashflow-label {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--apple-label-secondary);
+}
+
+.cashflow-val {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--apple-label-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.cashflow-box.highlight-income .cashflow-val {
+  color: var(--apple-green);
+}
+
+.cashflow-box.highlight-cost .cashflow-val {
+  color: #FF857F;
+}
+
+.cashflow-sub {
+  font-size: 9.5px;
+  color: var(--apple-label-tertiary);
+}
+
+.cashflow-bottom-banner {
+  padding: 7px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--apple-separator-subtle);
+  border-radius: var(--radius-control);
+  font-size: 11px;
+  color: var(--apple-label-secondary);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Task 4 Rent Reality Check
+   ========================================================================== */
+
+.rent-breakdown-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.rent-box {
+  background: var(--apple-bg-elevated);
+  border: 1px solid var(--apple-separator-subtle);
+  border-radius: var(--radius-control);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rent-box-label {
+  font-size: 9.5px;
+  color: var(--apple-label-secondary);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.rent-box-val {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--apple-label-primary);
+  font-variant-numeric: tabular-nums;
+  margin-top: 1px;
+}
+
+.parking-premium-banner {
+  padding: 6px 10px;
+  background: rgba(10, 132, 255, 0.08);
+  border: 1px solid rgba(10, 132, 255, 0.2);
+  border-radius: var(--radius-control);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.parking-premium-banner strong {
+  color: var(--apple-blue);
+}
+
+/* ==========================================================================
+   Data-Backed Negotiation Letter (Apple Form Style)
+   ========================================================================== */
+
+.offer-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.offer-input-group label {
+  font-size: 10.5px;
+  color: var(--apple-label-secondary);
+  font-weight: 600;
+}
+
+.offer-input {
+  background: var(--apple-bg-elevated);
+  border: 1px solid var(--apple-separator);
+  border-radius: var(--radius-control);
+  padding: 8px 10px;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  outline: none;
+  font-variant-numeric: tabular-nums;
+  transition: all 0.2s var(--apple-spring);
+}
+
+.offer-input:focus {
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.3);
+}
+
+.btn-primary {
+  background: var(--apple-blue);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-control);
+  padding: 9px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s var(--apple-spring);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-primary:hover {
+  background: var(--apple-blue-hover);
+}
+
+.btn-primary:active {
+  transform: scale(0.975);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.letter-textarea {
+  background: #000000;
+  border: 1px solid var(--apple-separator);
+  border-radius: var(--radius-control);
+  padding: 10px;
+  color: #E2E8F0;
+  font-family: -apple-system-ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  line-height: 1.45;
+  resize: vertical;
+  outline: none;
 }

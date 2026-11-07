@@ -234,12 +234,9 @@ function renderAnalysis(data) {
   renderBuildingComps(data.building_comps);
 }
 
-let googleMapInstance = null;
-let googleMapsScriptLoaded = false;
-
 // Initialize Google Geospatial Cockpit (Interactive Map, Aerial Satellite, and Street View)
-async function initGoogleGeospatialCockpit(data, propLat, propLon) {
-  const mapContainer = document.getElementById("google-map-container");
+function initGoogleGeospatialCockpit(data, propLat, propLon) {
+  const mapIframe = document.getElementById("google-map-iframe");
   const svgMap = document.getElementById("suburb-polygon-svg");
   const satContainer = document.getElementById("satellite-container");
   const streetContainer = document.getElementById("streetview-container");
@@ -248,37 +245,53 @@ async function initGoogleGeospatialCockpit(data, propLat, propLon) {
 
   const lat = propLat || -33.9016;
   const lon = propLon || 151.2120;
+  const suburb = data.suburb || "Waterloo";
 
-  // 1. Update Satellite and Street View image URLs via local secure proxy
+  // 1. Update Map Iframe, Satellite, and Street View URLs via local backend proxy
+  if (mapIframe) {
+    mapIframe.src = `http://127.0.0.1:8000/api/maps/interactive?lat=${lat}&lng=${lon}&suburb=${encodeURIComponent(suburb)}`;
+    mapIframe.onerror = () => {
+      mapIframe.style.display = "none";
+      if (svgMap) {
+        svgMap.style.display = "block";
+        renderPolygon(data.suburb_boundary, lat, lon);
+      }
+    };
+  }
   if (satImg) {
-    satImg.src = `http://localhost:8000/api/maps/satellite?lat=${lat}&lng=${lon}&zoom=18`;
+    satImg.src = `http://127.0.0.1:8000/api/maps/satellite?lat=${lat}&lng=${lon}&zoom=18`;
   }
   if (streetImg) {
-    streetImg.src = `http://localhost:8000/api/maps/streetview?lat=${lat}&lng=${lon}`;
+    streetImg.src = `http://127.0.0.1:8000/api/maps/streetview?lat=${lat}&lng=${lon}`;
   }
 
-  // 2. View Mode Switcher Handlers
+  // 2. View Mode Switcher Handlers (Apple Segmented Control)
   const btnMap = document.getElementById("view-mode-map");
   const btnSat = document.getElementById("view-mode-satellite");
   const btnStreet = document.getElementById("view-mode-streetview");
 
   function switchView(mode) {
-    if (btnMap) btnMap.classList.toggle("active", mode === "map");
-    if (btnSat) btnSat.classList.toggle("active", mode === "satellite");
-    if (btnStreet) btnStreet.classList.toggle("active", mode === "streetview");
+    const tabs = [
+      { id: "map", btn: btnMap },
+      { id: "satellite", btn: btnSat },
+      { id: "streetview", btn: btnStreet }
+    ];
+
+    tabs.forEach(t => {
+      if (t.btn) {
+        const isActive = (t.id === mode);
+        t.btn.classList.toggle("active", isActive);
+        t.btn.setAttribute("aria-selected", isActive ? "true" : "false");
+      }
+    });
 
     if (mode === "map") {
-      if (googleMapInstance && mapContainer) {
-        mapContainer.style.display = "block";
-        if (svgMap) svgMap.style.display = "none";
-      } else {
-        if (mapContainer) mapContainer.style.display = "none";
-        if (svgMap) svgMap.style.display = "block";
-      }
+      if (mapIframe) mapIframe.style.display = "block";
+      if (svgMap) svgMap.style.display = "none";
       if (satContainer) satContainer.style.display = "none";
       if (streetContainer) streetContainer.style.display = "none";
     } else if (mode === "satellite") {
-      if (mapContainer) mapContainer.style.display = "none";
+      if (mapIframe) mapIframe.style.display = "none";
       if (svgMap) svgMap.style.display = "none";
       if (satContainer) satContainer.style.display = "block";
       if (streetContainer) streetContainer.style.display = "none";
@@ -286,7 +299,7 @@ async function initGoogleGeospatialCockpit(data, propLat, propLon) {
         satImg.src = `http://127.0.0.1:8000/api/maps/satellite?lat=${lat}&lng=${lon}&zoom=18`;
       }
     } else if (mode === "streetview") {
-      if (mapContainer) mapContainer.style.display = "none";
+      if (mapIframe) mapIframe.style.display = "none";
       if (svgMap) svgMap.style.display = "none";
       if (satContainer) satContainer.style.display = "none";
       if (streetContainer) streetContainer.style.display = "block";
@@ -299,113 +312,33 @@ async function initGoogleGeospatialCockpit(data, propLat, propLon) {
   if (btnMap) btnMap.onclick = () => switchView("map");
   if (btnSat) btnSat.onclick = () => switchView("satellite");
   if (btnStreet) btnStreet.onclick = () => switchView("streetview");
+}
 
-  // 3. Dynamic Google Maps JavaScript API Loader via backend config
-  try {
-    const cfgRes = await fetch("http://localhost:8000/api/config/maps");
-    if (cfgRes.ok) {
-      const cfg = await cfgRes.json();
-      if (cfg.available && cfg.key && !window.google?.maps && !googleMapsScriptLoaded) {
-        googleMapsScriptLoaded = true;
-        await new Promise((resolve) => {
-          const script = document.createElement("script");
-          script.src = `https://maps.googleapis.com/maps/api/js?key=${cfg.key}&callback=__initMicroTruthGoogleMap`;
-          script.async = true;
-          window.__initMicroTruthGoogleMap = () => resolve();
-          document.head.appendChild(script);
-        });
-      }
-    }
-  } catch (e) {
-    console.warn("Could not load Google Maps configuration:", e);
-  }
+// Setup Inside The Building Comps Tabs (Past Sales vs Past Leases)
+function setupCompTabs() {
+  const tabSales = document.getElementById("tab-sales");
+  const tabLeases = document.getElementById("tab-leases");
+  const listSales = document.getElementById("comps-sales-list");
+  const listLeases = document.getElementById("comps-leases-list");
 
-  // 4. Render Google Map if available, else fallback to SVG
-  if (window.google && window.google.maps && mapContainer) {
-    mapContainer.style.display = "block";
-    if (svgMap) svgMap.style.display = "none";
+  if (tabSales && tabLeases) {
+    tabSales.onclick = () => {
+      tabSales.classList.add("active");
+      tabSales.setAttribute("aria-selected", "true");
+      tabLeases.classList.remove("active");
+      tabLeases.setAttribute("aria-selected", "false");
+      if (listSales) listSales.style.display = "block";
+      if (listLeases) listLeases.style.display = "none";
+    };
 
-    const darkStyle = [
-      { "elementType": "geometry", "stylers": [{ "color": "#17263c" }] },
-      { "elementType": "labels.text.stroke", "stylers": [{ "color": "#242f3e" }] },
-      { "elementType": "labels.text.fill", "stylers": [{ "color": "#746855" }] },
-      { "featureType": "road", "elementType": "geometry", "stylers": [{ "color": "#38414e" }] },
-      { "featureType": "road", "elementType": "geometry.stroke", "stylers": [{ "color": "#212a37" }] },
-      { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#0e1626" }] }
-    ];
-
-    googleMapInstance = new google.maps.Map(mapContainer, {
-      center: { lat, lng: lon },
-      zoom: 16,
-      styles: darkStyle,
-      disableDefaultUI: true,
-      zoomControl: true
-    });
-
-    // Property Pin (Amber marker)
-    new google.maps.Marker({
-      position: { lat, lng: lon },
-      map: googleMapInstance,
-      title: data.display_name || "Target Property",
-      icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 9,
-        fillColor: "#F59E0B",
-        fillOpacity: 1,
-        strokeColor: "#FFFFFF",
-        strokeWeight: 2
-      }
-    });
-
-    // Building Sales Comps Pins (Green markers with InfoWindow)
-    const sales = (data.building_comps && data.building_comps.recent_sales) || [
-      { price: 1388889, address: "Unit 703, 8 Sam Sing St" },
-      { price: 780000, address: "Unit 105, 8 Sam Sing St" }
-    ];
-    sales.forEach((s, idx) => {
-      const marker = new google.maps.Marker({
-        position: { lat: lat + ((idx % 3) * 0.00018 - 0.00015), lng: lon + (Math.floor(idx / 3) * 0.0002 + 0.0001) },
-        map: googleMapInstance,
-        title: `${s.address}: $${Math.round(s.price).toLocaleString()}`,
-        icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          scale: 6,
-          fillColor: "#10B981",
-          fillOpacity: 0.9,
-          strokeColor: "#FFFFFF",
-          strokeWeight: 1.5
-        }
-      });
-      const info = new google.maps.InfoWindow({
-        content: `<div style="color:#0F172A;font-weight:700;font-size:12px;padding:4px;">${s.address}<br><span style="color:#0284C7;font-weight:800;">$${Math.round(s.price).toLocaleString()}</span></div>`
-      });
-      marker.addListener("click", () => info.open(googleMapInstance, marker));
-    });
-
-    // Suburb Boundary Polygon on Google Maps
-    let coords = [];
-    try {
-      const geo = data.suburb_boundary?.geojson || data.suburb_boundary?.geometry || data.suburb_boundary;
-      if (geo?.coordinates) coords = geo.coordinates[0];
-    } catch (e) {}
-
-    if (coords && coords.length > 0) {
-      const gCoords = coords.map(([cLon, cLat]) => ({ lat: cLat, lng: cLon }));
-      new google.maps.Polygon({
-        paths: gCoords,
-        strokeColor: "#38BDF8",
-        strokeOpacity: 0.9,
-        strokeWeight: 2,
-        fillColor: "#38BDF8",
-        fillOpacity: 0.12,
-        map: googleMapInstance
-      });
-    }
-  } else {
-    // Fallback to SVG representation
-    if (mapContainer) mapContainer.style.display = "none";
-    if (svgMap) svgMap.style.display = "block";
-    renderPolygon(data.suburb_boundary, propLat, propLon);
+    tabLeases.onclick = () => {
+      tabLeases.classList.add("active");
+      tabLeases.setAttribute("aria-selected", "true");
+      tabSales.classList.remove("active");
+      tabSales.setAttribute("aria-selected", "false");
+      if (listSales) listSales.style.display = "none";
+      if (listLeases) listLeases.style.display = "block";
+    };
   }
 }
 
