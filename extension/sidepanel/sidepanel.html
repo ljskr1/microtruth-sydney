@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MicroTruth Sydney</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="panel-container">
+    <!-- Top Bar -->
+    <header class="panel-header">
+      <div class="brand">
+        <div class="brand-logo">M</div>
+        <div>
+          <h1 class="brand-title">MicroTruth Sydney</h1>
+          <p class="brand-subtitle">Microburbs Reality Engine</p>
+        </div>
+      </div>
+      <div id="connection-status" class="status-indicator online">Connected</div>
+    </header>
+
+    <!-- Demo Listing Selector for quick testing -->
+    <div class="selector-card">
+      <label for="demo-select" class="selector-label">Quick Switch Property (City of Sydney):</label>
+      <select id="demo-select" class="selector-dropdown">
+        <option value="">Active Page Listing (Auto-Detect)</option>
+        <option value="Unit 105, 8 Sam Sing Street, Waterloo">Unit 105, 8 Sam Sing St, Waterloo ($720k Guide)</option>
+        <option value="Unit 105, 8 Cooper Street, Surry Hills">Unit 105, 8 Cooper St, Surry Hills ($950k Guide)</option>
+        <option value="Unit 105, 8 Darling Island Road, Pyrmont">Unit 105, 8 Darling Island Rd, Pyrmont ($1.85M Guide)</option>
+        <option value="Unit 105, 8 Central Park Avenue, Chippendale">Unit 105, 8 Central Park Ave, Chippendale ($780k Guide)</option>
+      </select>
+    </div>
+
+    <!-- Main Content State -->
+    <div id="content-loading" class="state-card loading" style="display: none;">
+      <div class="spinner"></div>
+      <p>Consulting Microburbs Municipal Intelligence...</p>
+    </div>
+
+    <div id="content-active" class="content-wrapper">
+      <!-- Property Headline -->
+      <section class="card property-card">
+        <div class="badge-row">
+          <span id="prop-suburb-tag" class="tag tag-blue">Waterloo (NSW)</span>
+          <span id="prop-type-tag" class="tag tag-gray">Apartment</span>
+          <span id="prop-gnaf-tag" class="tag tag-mono">GANSW718750376</span>
+        </div>
+        <h2 id="prop-address" class="property-title">Unit 105, 8 Sam Sing Street, Waterloo</h2>
+        <div class="property-specs">
+          <span>🛏️ <strong id="spec-beds">1</strong> Bed</span>
+          <span>🛁 <strong id="spec-baths">1</strong> Bath</span>
+          <span>🚗 <strong id="spec-cars">0</strong> Car</span>
+        </div>
+      </section>
+
+      <!-- The Underquoting & Reality Check -->
+      <section class="card valuation-card">
+        <div class="card-header">
+          <h3>The Valuation Reality Check</h3>
+          <span id="underquote-badge" class="verdict-pill pill-moderate">⚡ +11.9% Underquote</span>
+        </div>
+        
+        <div class="valuation-grid">
+          <div class="val-box advert-box">
+            <span class="box-label">Advertised Guide</span>
+            <span id="guide-price-display" class="box-value">$720,000</span>
+            <span class="box-sub">From Agent Listing</span>
+          </div>
+          <div class="val-box microburbs-box">
+            <span class="box-label">Microburbs AVM</span>
+            <span id="avm-price-display" class="box-value">$805,500</span>
+            <span id="avm-range-display" class="box-sub">Range: $628k – $983k</span>
+          </div>
+        </div>
+
+        <div class="confidence-bar-container">
+          <div class="confidence-labels">
+            <span>Model Confidence</span>
+            <span id="confidence-pct">95%</span>
+          </div>
+          <div class="progress-track">
+            <div id="confidence-fill" class="progress-fill" style="width: 95%;"></div>
+          </div>
+        </div>
+
+        <p id="valuation-human-summary" class="human-summary-text">
+          ⚡ Likely Underquoted by ~11.9%: Agent guide is below algorithmic market expectations. Expect competitive bidding at auction.
+        </p>
+      </section>
+
+      <!-- The Hidden Trap & Hazard Radar -->
+      <section class="card traps-card">
+        <div class="card-header">
+          <h3>The Hidden Trap Radar</h3>
+          <span class="radar-ping"></span>
+        </div>
+        <div id="traps-list" class="traps-list">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- Suburb Market Context -->
+      <section class="card market-card">
+        <div class="card-header">
+          <h3>Precision Suburb Context</h3>
+        </div>
+        <div class="market-metrics-grid">
+          <div class="metric-item">
+            <span class="metric-num">+4.7%</span>
+            <span class="metric-label">12-Mo Capital Growth</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-num">27 Days</span>
+            <span class="metric-label">Median Days on Market</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-num">3.8%</span>
+            <span class="metric-label">Gross Rental Yield</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1-Click Viral Social Card Generator -->
+      <section class="card viral-card-section">
+        <div class="card-header">
+          <h3>Viral Reality Card (Task 1 Engine)</h3>
+          <span class="tag tag-green">🔥 Shareable</span>
+        </div>
+        <p class="section-desc">Generate high-contrast visual proof: "The Advert vs The Facts" for Reddit (r/ausfinance) and Instagram.</p>
+        
+        <!-- Live Visual Preview of Card -->
+        <div id="viral-card-preview" class="viral-card-container">
+          <div class="card-preview-inner">
+            <div class="preview-badge">SYDNEY PROPERTY REALITY CHECK</div>
+            <div id="card-addr-preview" class="preview-address">Unit 105, 8 Sam Sing St, Waterloo</div>
+            <div class="preview-contrast-grid">
+              <div class="contrast-col advert-col">
+                <div class="contrast-tag">The Advert</div>
+                <div id="card-guide-preview" class="contrast-val">$720,000</div>
+                <div class="contrast-desc">"Quiet luxury sanctuary"</div>
+              </div>
+              <div class="contrast-col facts-col">
+                <div class="contrast-tag">The Facts</div>
+                <div id="card-avm-preview" class="contrast-val">$805,500</div>
+                <div id="card-gap-preview" class="contrast-desc">+11.9% Underquoted</div>
+              </div>
+            </div>
+            <div class="preview-hazards" id="card-hazards-preview">
+              <span>⚠️ 16 Social Housing in 200m</span>
+              <span>⚠️ Commercial Zone</span>
+            </div>
+            <div class="preview-watermark">Microburbs Certified Hackathon Intelligence</div>
+          </div>
+        </div>
+
+        <div class="action-buttons-row">
+          <button id="btn-copy-reddit" class="btn btn-secondary">📋 Copy Reddit Format</button>
+          <button id="btn-download-card" class="btn btn-primary">🎨 Download Card (PNG)</button>
+        </div>
+      </section>
+
+      <!-- 1-Click Data-Backed Offer Letter -->
+      <section class="card negotiation-section">
+        <div class="card-header">
+          <h3>Data-Backed Negotiation Weapon</h3>
+        </div>
+        <p class="section-desc">Armed with Microburbs data, send a formal offer that cuts through agent sales talk.</p>
+        
+        <div class="offer-input-group">
+          <label for="input-offer">Your Target Counter-Offer ($):</label>
+          <input type="number" id="input-offer" class="offer-input" placeholder="750000" value="750000">
+        </div>
+        
+        <button id="btn-generate-letter" class="btn btn-primary btn-block">Generate Formal Offer Letter</button>
+        
+        <div id="letter-container" class="letter-box" style="display: none;">
+          <textarea id="letter-text" class="letter-textarea" rows="8" readonly></textarea>
+          <button id="btn-copy-letter" class="btn btn-secondary btn-block">Copy Offer to Clipboard</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>

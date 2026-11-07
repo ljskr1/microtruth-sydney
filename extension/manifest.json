@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "MicroTruth Sydney: Property Reality Check",
+  "version": "1.0.0",
+  "description": "Expose underquoting, unmask hidden hazards, and generate data-backed negotiation offers on Domain & Realestate.com.au. Powered by Microburbs API.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "*://*.domain.com.au/*",
+    "*://*.realestate.com.au/*",
+    "http://localhost:8000/*",
+    "http://127.0.0.1:8000/*",
+    "https://api-ht.microburbs.com.au/*"
+  ],
+  "action": {
+    "default_title": "MicroTruth Sydney Reality Check",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel/sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.domain.com.au/*",
+        "*://*.realestate.com.au/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

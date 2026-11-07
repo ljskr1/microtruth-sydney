@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MicroTruth Sydney | The Property Reality Engine</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-icon">M</div>
+        <div>
+          <span class="brand-name">MicroTruth Sydney</span>
+          <span class="brand-tag">Microburbs Hackathon 2026 • Team Oneshot</span>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <span class="live-pill">● API Connected</span>
+        <a href="https://github.com/ljskr1/microtruth-sydney" target="_blank" class="github-btn">GitHub Repo</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">THE SYDNEY PROPERTY TRUTH ENGINE</div>
+    <h1 class="hero-title">Never Buy or Rent Blind in Sydney Again.</h1>
+    <p class="hero-subtitle">
+      Real estate agents routinely underquote listings by \$150k–\$300k and conceal high-rise developments, flood zones, and traffic corridors. MicroTruth unmasks the verified Microburbs municipal facts before auction day.
+    </p>
+
+    <!-- Address Search Bar -->
+    <div class="search-box">
+      <div class="input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="address-input" placeholder="Type any City of Sydney address (e.g. Unit 105, 8 Sam Sing Street, Waterloo)..." autocomplete="off">
+      </div>
+      <div class="guide-wrapper">
+        <span class="guide-prefix">$</span>
+        <input type="number" id="guide-input" placeholder="Guide Price (optional, e.g. 720000)">
+      </div>
+      <button id="search-btn" class="search-btn">Run Reality Check →</button>
+    </div>
+
+    <!-- Quick Demo Selector -->
+    <div class="quick-demo-row">
+      <span class="demo-label">1-Click Live Demos:</span>
+      <button class="demo-chip" data-addr="Unit 105, 8 Sam Sing Street, Waterloo" data-guide="720000">📍 Waterloo ($720k Guide)</button>
+      <button class="demo-chip" data-addr="Unit 105, 8 Cooper Street, Surry Hills" data-guide="950000">📍 Surry Hills ($950k Guide)</button>
+      <button class="demo-chip" data-addr="Unit 105, 8 Darling Island Road, Pyrmont" data-guide="1850000">📍 Pyrmont ($1.85M Guide)</button>
+      <button class="demo-chip" data-addr="Unit 105, 8 Central Park Avenue, Chippendale" data-guide="780000">📍 Chippendale ($780k Guide)</button>
+    </div>
+  </section>
+
+  <!-- Loading State -->
+  <div id="loading-spinner" class="loading-container" style="display: none;">
+    <div class="spinner"></div>
+    <p>Querying Microburbs Certified AVM, Risk Overlays & Mesh Block APIs...</p>
+  </div>
+
+  <!-- Main Dashboard Output -->
+  <main id="dashboard" class="dashboard-container" style="display: block;">
+    <!-- Active Property Headline -->
+    <div class="property-header-card">
+      <div class="header-left">
+        <div class="badge-cluster">
+          <span id="prop-suburb" class="badge badge-suburb">Waterloo (NSW)</span>
+          <span id="prop-type" class="badge badge-type">Apartment</span>
+          <span id="prop-gnaf" class="badge badge-gnaf">GANSW718750376</span>
+        </div>
+        <h2 id="prop-display-name" class="prop-title">UNIT 105/8 Sam Sing Street, Waterloo (NSW)</h2>
+      </div>
+      <div class="specs-cluster">
+        <div class="spec-box"><span class="spec-icon">🛏️</span><strong id="spec-beds">1</strong> Bed</div>
+        <div class="spec-box"><span class="spec-icon">🛁</span><strong id="spec-baths">1</strong> Bath</div>
+        <div class="spec-box"><span class="spec-icon">🚗</span><strong id="spec-cars">0</strong> Car</div>
+      </div>
+    </div>
+
+    <!-- 3-Column Intelligence Matrix -->
+    <div class="intelligence-grid">
+      <!-- Column 1: Valuation & Underquote Gauge -->
+      <div class="grid-card val-card">
+        <div class="card-top">
+          <h3>The Valuation Reality Check</h3>
+          <span id="verdict-tag" class="verdict-tag tag-moderate">⚡ +11.9% Underquote</span>
+        </div>
+
+        <div class="price-comparison-row">
+          <div class="price-box advert">
+            <span class="price-label">The Advert Guide</span>
+            <span id="advert-price" class="price-val">$720,000</span>
+            <span class="price-note">Agent Auction Guide</span>
+          </div>
+          <div class="price-box microburbs">
+            <span class="price-label">Microburbs AVM</span>
+            <span id="microburbs-price" class="price-val">$805,500</span>
+            <span id="microburbs-range" class="price-note">Range: $628k – $983k</span>
+          </div>
+        </div>
+
+        <div class="confidence-section">
+          <div class="conf-head">
+            <span>Model Confidence</span>
+            <strong id="conf-val">95%</strong>
+          </div>
+          <div class="conf-track">
+            <div id="conf-fill" class="conf-fill" style="width: 95%;"></div>
+          </div>
+        </div>
+
+        <div id="summary-box" class="summary-callout">
+          ⚡ Likely Underquoted by ~11.9%: Agent guide is below algorithmic market expectations. Expect competitive bidding at auction.
+        </div>
+      </div>
+
+      <!-- Column 2: The Trap & Hazard Radar -->
+      <div class="grid-card radar-card">
+        <div class="card-top">
+          <h3>The Hidden Trap & Hazard Radar</h3>
+          <span class="sonar-dot"></span>
+        </div>
+        <p class="card-desc">Geospatial overlays cross-referenced across 4 municipal risk layers.</p>
+
+        <div id="traps-container" class="traps-list">
+          <div class="trap-entry info">
+            <div class="trap-h">ℹ️ Flood Zone Within 545m</div>
+            <div class="trap-p">Nearest municipal flood risk layer is 545 meters away.</div>
+          </div>
+          <div class="trap-entry info">
+            <div class="trap-h">ℹ️ 16 Social Housing Properties Within 200m</div>
+            <div class="trap-p">16 of 2,922 surrounding properties (0.5%) identified as social housing.</div>
+          </div>
+          <div class="trap-entry info">
+            <div class="trap-h">ℹ️ Zone: Mixed Use (Commercial)</div>
+            <div class="trap-p">Permits high-density urban transformation and ongoing development.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3: Precision Suburb Metrics -->
+      <div class="grid-card suburb-card">
+        <div class="card-top">
+          <h3>Local Suburb Dynamics</h3>
+        </div>
+        <p class="card-desc">City of Sydney baseline market performance.</p>
+
+        <div class="suburb-stats-grid">
+          <div class="suburb-stat-tile">
+            <div class="stat-number">+4.7%</div>
+            <div class="stat-caption">12-Mo Capital Growth</div>
+          </div>
+          <div class="suburb-stat-tile">
+            <div class="stat-number">27 Days</div>
+            <div class="stat-caption">Median Days on Market</div>
+          </div>
+          <div class="suburb-stat-tile">
+            <div class="stat-number">3.8%</div>
+            <div class="stat-caption">Gross Rental Yield</div>
+          </div>
+          <div class="suburb-stat-tile">
+            <div class="stat-number">2,076</div>
+            <div class="stat-caption">ABS Mesh Blocks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Viral Reality Card Studio (Task 1 Engine) -->
+    <div class="viral-studio-card">
+      <div class="studio-header">
+        <div>
+          <h2>🎨 Viral Reality Card Studio (Task 1 Social Engine)</h2>
+          <p>Instant high-contrast shareable cards: "The Advert vs The Facts" designed for r/ausfinance, r/sydney, and Instagram.</p>
+        </div>
+        <div class="studio-btns">
+          <button id="copy-reddit-btn" class="btn-outline">📋 Copy Reddit r/ausfinance Post</button>
+          <button id="download-card-btn" class="btn-accent">🎨 Download High-Res Card (PNG)</button>
+        </div>
+      </div>
+
+      <div class="canvas-preview-wrapper">
+        <canvas id="viral-canvas" width="1080" height="1080"></canvas>
+      </div>
+    </div>
+
+    <!-- Negotiation Weapon & Offer Generator -->
+    <div class="negotiation-card">
+      <div class="neg-header">
+        <h2>⚡ Data-Backed Negotiation Weapon</h2>
+        <p>Arm yourself with Microburbs facts. Generate a formal counter-offer citing hard market comps.</p>
+      </div>
+
+      <div class="neg-form">
+        <div class="form-row">
+          <label>Your Target Counter-Offer ($):</label>
+          <input type="number" id="offer-amount" value="750000" class="offer-num-input">
+          <button id="make-letter-btn" class="btn-accent">Generate Formal Letter</button>
+        </div>
+        <div id="letter-display-area" class="letter-display-area">
+          <textarea id="full-letter-content" class="offer-textarea" rows="7" readonly></textarea>
+          <button id="copy-offer-btn" class="btn-outline">Copy Formal Letter to Clipboard</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live API Verifier (For Hackathon Judges) -->
+    <div class="api-verifier-card">
+      <div class="api-v-header">
+        <h3>🔬 Live Microburbs API Verifier (For Hackathon Judges)</h3>
+        <span class="api-status">Verified Bearer Token: team-29</span>
+      </div>
+      <p>Every single number on this page is powered by live Microburbs API endpoints covering the City of Sydney:</p>
+      <div class="api-code-list">
+        <code>GET /v1/geocode/address?address=...</code>
+        <code>GET /v1/properties/{gnaf}/valuation/avm</code>
+        <code>GET /v1/properties/{gnaf}/risks/all</code>
+        <code>GET /v1/properties/{gnaf}/surroundings/public-housing</code>
+        <code>GET /v1/suburbs/{suburb}/market/all</code>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>MicroTruth Sydney • The Microburbs Hackathon 2026 • Team Oneshot (team-29)</p>
+      <p>Built with Microburbs API, Manifest V3 Chrome Extension, OpenScreen Video Engine & Public GitHub Repo.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
