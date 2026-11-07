@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MicroTruth Sydney — 2-Minute Pitch Deck</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(19, 27, 46, 0.85);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.25);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Navigation & Status Bar */
+    .top-bar {
+      height: 60px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(9, 13, 22, 0.95);
+      backdrop-filter: blur(20px);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-badge {
+      background: var(--accent);
+      color: #000;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .timer-display {
+      font-family: "SF Mono", Menlo, monospace;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(16, 185, 129, 0.1);
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--accent-glow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .audio-btn {
+      background: #1e293b;
+      border: 1px solid var(--card-border);
+      color: #f8fafc;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .audio-btn:hover {
+      background: #334155;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .audio-btn.playing {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    .key-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Presentation Deck Viewport */
+    .deck-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .slide {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      right: 40px;
+      bottom: 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 60px 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .slide-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slide-title {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+
+    .slide-content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      flex: 1;
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .metric-value {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .metric-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      font-size: 18px;
+      line-height: 1.5;
+      color: #cbd5e1;
+    }
+
+    .bullet-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Bottom Bar & Progress */
+    .bottom-bar {
+      height: 50px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--card-border);
+      background: rgba(9, 13, 22, 0.95);
+      z-index: 100;
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      max-width: 400px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 0 24px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 14.28%;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    /* Presenter View (Prompt HUD) */
+    .presenter-hud {
+      position: fixed;
+      bottom: 60px;
+      left: 32px;
+      right: 32px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 16px;
+      padding: 20px 28px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+      z-index: 200;
+      display: none;
+    }
+
+    .presenter-hud.active {
+      display: block;
+    }
+
+    .hud-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hud-script {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #f1f5f9;
+      font-weight: 500;
+    }
+
+    .nav-arrow-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 20px;
+      padding: 4px 8px;
+      transition: color 0.2s;
+    }
+
+    .nav-arrow-btn:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="brand">
+      <span>MicroTruth Sydney</span>
+      <span class="brand-badge">2-Min Pitch</span>
+    </div>
+    <div class="controls">
+      <div class="timer-display">
+        <span>⏱️</span>
+        <span id="timer-text">01:31</span>
+      </div>
+      <button class="audio-btn" id="btn-toggle-audio">
+        <span>▶️</span>
+        <span>Play Australian Voiceover</span>
+      </button>
+      <button class="audio-btn" id="btn-toggle-voice">
+        <span>🇦🇺</span>
+        <span id="voice-label">Voice: Australian</span>
+      </button>
+      <button class="audio-btn" id="btn-toggle-hud">
+        <span>🎙️</span>
+        <span>Presenter Notes (<span class="key-hint">P</span>)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Deck Slides -->
+  <main class="deck-container">
+
+    <!-- Slide 1 -->
+    <div class="slide active" data-slide="1" data-duration="16">
+      <div>
+        <div class="slide-eyebrow">Slide 1 of 7 · The Problem</div>
+        <h1 class="slide-title">The Asymmetric Trap in Sydney Real Estate</h1>
+      </div>
+      <div class="slide-content-grid">
+        <ul class="bullet-list">
+          <li class="bullet-item">
+            <span class="bullet-icon">✕</span>
+            <span><strong>Deliberate Underquoting:</strong> Listing agents routinely guide 15%–25% below reserve to manufacture artificial auction frenzy.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">✕</span>
+            <span><strong>Hidden Strata Reality:</strong> Historical building defects, past unit leases, and sales in the block are hidden from brochures.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">✕</span>
+            <span><strong>Wasted Sunk Costs:</strong> Everyday buyers spend $600–$1,000 on inspection reports for homes already out of their price range.</span>
+          </li>
+        </ul>
+        <div class="metric-card">
+          <div class="metric-value">15%–25%</div>
+          <div class="metric-label">Typical price guide discount under realistic auction clearance values across Greater Sydney.</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color: var(--text-muted); font-size: 13px;">Team Oneshot · Microburbs Hackathon 2026</div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide" data-slide="2" data-duration="18">
+      <div>
+        <div class="slide-eyebrow">Slide 2 of 7 · The Architectural Insight</div>
+        <h1 class="slide-title">In-Situ Reality: Meet Buyers Where They Are</h1>
+      </div>
+      <div class="slide-content-grid">
+        <ul class="bullet-list">
+          <li class="bullet-item">
+            <span class="bullet-icon">✓</span>
+            <span><strong>Zero Fake Localhost Dashboards:</strong> Buyers never check standalone portals while browsing properties.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">✓</span>
+            <span><strong>In-Page Injection:</strong> MicroTruth operates as a Manifest V3 Chrome Extension directly on <code>Domain.com.au</code> and <code>Realestate.com.au</code>.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">✓</span>
+            <span><strong>Instant Ground Truth:</strong> Appears directly beneath the agent's price guide the instant the page loads.</span>
+          </li>
+        </ul>
+        <div class="metric-card">
+          <div class="metric-value">&lt; 1 Second</div>
+          <div class="metric-label">In-situ reality badge injection latency directly inside the buyer's active browser session.</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color: var(--text-muted); font-size: 13px;">Team Oneshot · Microburbs Hackathon 2026</div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide" data-slide="3" data-duration="18">
+      <div>
+        <div class="slide-eyebrow">Slide 3 of 7 · The Underquote Detector</div>
+        <h1 class="slide-title">The In-Page Underquote Reality Badge</h1>
+      </div>
+      <div class="slide-content-grid">
+        <ul class="bullet-list">
+          <li class="bullet-item">
+            <span class="bullet-icon">⚡</span>
+            <span><strong>Real-Time AVM Comparison:</strong> Compares quoted guide against Microburbs Automated Valuation Models.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">⚡</span>
+            <span><strong>Clearance Corridor:</strong> Calculates the realistic auction clearing price range ($790k – $835k on a $720k guide).</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">⚡</span>
+            <span><strong>One-Click Drawer:</strong> "Inspect Full Truth" launches a slide-in drawer without ever leaving the listing.</span>
+          </li>
+        </ul>
+        <div class="metric-card">
+          <div class="metric-value">+11.9%</div>
+          <div class="metric-label">Severe underquote flag triggered on sample Waterloo unit ($720k Guide vs $805,500 Microburbs Reality).</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color: var(--text-muted); font-size: 13px;">Team Oneshot · Microburbs Hackathon 2026</div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide" data-slide="4" data-duration="20">
+      <div>
+        <div class="slide-eyebrow">Slide 4 of 7 · The Secret Weapon (Tasks 2 & 3)</div>
+        <h1 class="slide-title">Inside The Building Ledger</h1>
+      </div>
+      <div class="slide-content-grid">
+        <ul class="bullet-list">
+          <li class="bullet-item">
+            <span class="bullet-icon">🏢</span>
+            <span><strong>Massive Municipal Ingestion:</strong> 112,457 historical leases, 81,079 sales, 6,597 public housing properties, and 213,239 addresses.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">🏢</span>
+            <span><strong>High-Speed SQLite WAL:</strong> Sub-2ms address and strata-plan queries executed locally on the client machine.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">🏢</span>
+            <span><strong>What Agents Hide:</strong> Instantly displays 5 past unit sales ($1.38M) and 5 active leases ($1,700/wk) in that exact building.</span>
+          </li>
+        </ul>
+        <div class="metric-card">
+          <div class="metric-value">213,239</div>
+          <div class="metric-label">City of Sydney addresses cross-referenced into instant inside-the-building transaction history.</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color: var(--text-muted); font-size: 13px;">Team Oneshot · Microburbs Hackathon 2026</div>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide" data-slide="5" data-duration="20">
+      <div>
+        <div class="slide-eyebrow">Slide 5 of 7 · Machine Learning Rigor (Tasks 4 & 5)</div>
+        <h1 class="slide-title">Task 4 & 5 Machine Learning Rigor</h1>
+      </div>
+      <div class="slide-content-grid">
+        <ul class="bullet-list">
+          <li class="bullet-item">
+            <span class="bullet-icon">📊</span>
+            <span><strong>Task 4 Rental Model:</strong> Trained on 103,919 leases; validated on held-out 8,538 2026 leases.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">📊</span>
+            <span><strong>31.2% Error Reduction:</strong> Median Dollar Error slashed to $59.16/wk vs Microburbs baseline of $86.00/wk.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">📊</span>
+            <span><strong>Task 5 Valuation:</strong> Repeat-sales index + Hedonic GBDT valuing all 181,711 properties.</span>
+          </li>
+        </ul>
+        <div class="metric-card">
+          <div class="metric-value">$59.16/wk</div>
+          <div class="metric-label">Median Dollar Error achieved (vs $86.00 baseline). 69.83% of predictions within &le; $100 error.</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color: var(--text-muted); font-size: 13px;">Team Oneshot · Microburbs Hackathon 2026</div>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="slide" data-slide="6" data-duration="16">
+      <div>
+        <div class="slide-eyebrow">Slide 6 of 7 · Turning Insight Into Action</div>
+        <h1 class="slide-title">The 1-Click Negotiation Weapon</h1>
+      </div>
+      <div class="slide-content-grid">
+        <ul class="bullet-list">
+          <li class="bullet-item">
+            <span class="bullet-icon">✍️</span>
+            <span><strong>Automated Offer Letters:</strong> Converts Microburbs AVM figures and 90-day building comps into formal legal offer letters.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">✍️</span>
+            <span><strong>Unyielding Evidence:</strong> Directly cites gross yields, recent block comps, and median auction clearance times.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">✍️</span>
+            <span><strong>Instant Export:</strong> 1-click clipboard copy ready to paste into an email to the listing agent.</span>
+          </li>
+        </ul>
+        <div class="metric-card">
+          <div class="metric-value">1 Click</div>
+          <div class="metric-label">To generate an unyielding, data-backed buyer or tenant counter-offer letter.</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color: var(--text-muted); font-size: 13px;">Team Oneshot · Microburbs Hackathon 2026</div>
+    </div>
+
+    <!-- Slide 7 -->
+    <div class="slide" data-slide="7" data-duration="12">
+      <div>
+        <div class="slide-eyebrow">Slide 7 of 7 · Conclusion</div>
+        <h1 class="slide-title">Leveling The Playing Field Before You Bid</h1>
+      </div>
+      <div class="slide-content-grid">
+        <ul class="bullet-list">
+          <li class="bullet-item">
+            <span class="bullet-icon">🏆</span>
+            <span><strong>Full-Stack Production Craftsmanship:</strong> Working Manifest V3 extension, FastAPI backend, and SQLite WAL database.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">🏆</span>
+            <span><strong>Rigorous Machine Learning:</strong> 31.2% error reduction on rents; 181,711 verified valuations.</span>
+          </li>
+          <li class="bullet-item">
+            <span class="bullet-icon">🏆</span>
+            <span><strong>Authentic Utility:</strong> Real human impact for everyday Sydney buyers and renters.</span>
+          </li>
+        </ul>
+        <div class="metric-card">
+          <div class="metric-value">MicroTruth</div>
+          <div class="metric-label">The property reality engine & negotiation weapon. Built for the Microburbs Hackathon 2026.</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color: var(--text-muted); font-size: 13px;">Team Oneshot · Microburbs Hackathon 2026</div>
+    </div>
+
+  </main>
+
+  <!-- Presenter Notes HUD (Teleprompter) -->
+  <div class="presenter-hud" id="presenter-hud">
+    <div class="hud-title">
+      <span id="hud-slide-indicator">Slide 1 of 7 — Voiceover Teleprompter</span>
+      <span>Press <kbd>P</kbd> to hide</span>
+    </div>
+    <div class="hud-script" id="hud-script-text">
+      "In Sydney real estate, buyers are flying blind. Listing agents routinely underquote price guides by fifteen percent to lure crowds to auction, while hiding strata history, leaving buyers to waste thousands on building inspections for homes they can never afford."
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <footer class="bottom-bar">
+    <div style="font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px;">
+      <span>Slide <strong id="current-slide-num" style="color: #fff;">1</strong> of 7</span>
+    </div>
+
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <button class="nav-arrow-btn" id="btn-prev">◀</button>
+      <button class="nav-arrow-btn" id="btn-next">▶</button>
+      <span class="key-hint">← / → to Navigate</span>
+    </div>
+  </footer>
+
+  <!-- Audio Elements -->
+  <audio id="au-audio" src="audio/pitch_voiceover_au_mastered.mp3" preload="auto"></audio>
+  <audio id="kokoro-audio" src="audio/pitch_voiceover.mp3" preload="auto"></audio>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 1;
+    let timerSeconds = 91;
+    let timerInterval = null;
+    let isPlayingAudio = false;
+    let currentVoice = 'au'; // 'au' or 'kokoro'
+
+    const progressBar = document.getElementById('progress-bar');
+    const currentSlideNum = document.getElementById('current-slide-num');
+    const timerText = document.getElementById('timer-text');
+    const presenterHud = document.getElementById('presenter-hud');
+    const hudScriptText = document.getElementById('hud-script-text');
+    const hudSlideIndicator = document.getElementById('hud-slide-indicator');
+    const auAudio = document.getElementById('au-audio');
+    const kokoroAudio = document.getElementById('kokoro-audio');
+    let activeAudio = auAudio;
+
+    const btnToggleAudio = document.getElementById('btn-toggle-audio');
+    const btnToggleVoice = document.getElementById('btn-toggle-voice');
+    const voiceLabel = document.getElementById('voice-label');
+    const btnToggleHud = document.getElementById('btn-toggle-hud');
+
+    // Australian timing cues (exact)
+    const auSlideCues = [0, 15.1, 31.5, 51.7, 69.7, 89.5, 105.0];
+    // Kokoro timing cues
+    const kokoroSlideCues = [0, 16.5, 34.0, 56.0, 77.0, 99.0, 116.0];
+
+    btnToggleVoice.addEventListener('click', () => {
+      const wasPlaying = isPlayingAudio;
+      if (isPlayingAudio) {
+        activeAudio.pause();
+      }
+      if (currentVoice === 'au') {
+        currentVoice = 'kokoro';
+        activeAudio = kokoroAudio;
+        voiceLabel.textContent = 'Voice: Kokoro (US)';
+        btnToggleVoice.firstElementChild.textContent = '🇺🇸';
+        btnToggleAudio.querySelector('span:nth-child(2)').textContent = isPlayingAudio ? 'Pause Voiceover' : 'Play Kokoro Voiceover';
+        timerSeconds = 120;
+      } else {
+        currentVoice = 'au';
+        activeAudio = auAudio;
+        voiceLabel.textContent = 'Voice: Australian';
+        btnToggleVoice.firstElementChild.textContent = '🇦🇺';
+        btnToggleAudio.querySelector('span:nth-child(2)').textContent = isPlayingAudio ? 'Pause Voiceover' : 'Play Australian Voiceover';
+        timerSeconds = 91;
+      }
+      if (wasPlaying) {
+        activeAudio.play();
+      }
+    });
+
+    const scripts = [
+      "In Sydney real estate, buyers are flying blind. Listing agents routinely underquote price guides by fifteen percent to lure crowds to auction, while hiding strata history, leaving buyers to waste thousands on building inspections for homes they can never afford.",
+      "We didn't build another localhost dashboard that nobody visits. MicroTruth is a Chrome extension that meets buyers where they actually search: directly on Domain and Real Estate dot com dot au. The moment you view a listing, the truth is injected right beneath the agent's price guide.",
+      "Here, the agent quotes seven hundred and twenty thousand dollars. MicroTruth queries Microburbs valuation models in real time, exposing an estimated value of eight hundred and five thousand dollars—a twelve percent underquote. We establish a realistic auction clearance corridor so buyers know their true competition before spending a dime on legal review.",
+      "Click 'Inspect', and the side drawer slides in. We indexed over one hundred and twelve thousand leases and eighty-one thousand sales across Sydney in a high-speed SQLite engine. Browsing Unit 105 immediately surfaces the last five sales and leases inside this exact building that the agent chose not to mention.",
+      "Behind the UI sits serious machine learning. For Task 4, our rental pricing model trained on one hundred and four thousand leases cut the median dollar error to fifty-nine dollars per week—beating the Microburbs baseline by over thirty-one percent. For Task 5, we valued all one hundred and eighty-one thousand properties across the City of Sydney.",
+      "Information without action is useless. MicroTruth turns suburb trends and inside-the-building comps into a formal, unyielding offer letter in one click. Buyers export a data-backed counter-offer directly to their clipboard ready to email the listing agent.",
+      "Production-grade machine learning, zero fake dashboards, and real human leverage. MicroTruth Sydney levels the playing field before you bid."
+    ];
+
+    function showSlide(index) {
+      if (index < 1 || index > totalSlides) return;
+      currentSlide = index;
+
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx + 1 === currentSlide);
+      });
+
+      progressBar.style.width = `${(currentSlide / totalSlides) * 100}%`;
+      currentSlideNum.textContent = currentSlide;
+
+      hudSlideIndicator.textContent = `Slide ${currentSlide} of ${totalSlides} — Voiceover Teleprompter`;
+      hudScriptText.textContent = `"${scripts[currentSlide - 1]}"`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) showSlide(currentSlide - 1);
+    }
+
+    function startTimer() {
+      if (timerInterval) return;
+      timerInterval = setInterval(() => {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+          const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+          const s = String(timerSeconds % 60).padStart(2, '0');
+          timerText.textContent = `${m}:${s}`;
+        } else {
+          clearInterval(timerInterval);
+        }
+      }, 1000);
+    }
+
+    btnToggleAudio.addEventListener('click', () => {
+      if (!isPlayingAudio) {
+        activeAudio.play();
+        btnToggleAudio.classList.add('playing');
+        btnToggleAudio.innerHTML = '<span>⏸️</span><span>Pause Voiceover</span>';
+        isPlayingAudio = true;
+        startTimer();
+      } else {
+        activeAudio.pause();
+        btnToggleAudio.classList.remove('playing');
+        const vName = currentVoice === 'au' ? 'Australian' : 'Kokoro';
+        btnToggleAudio.innerHTML = `<span>▶️</span><span>Play ${vName} Voiceover</span>`;
+        isPlayingAudio = false;
+      }
+    });
+
+    btnToggleHud.addEventListener('click', () => {
+      presenterHud.classList.toggle('active');
+    });
+
+    document.getElementById('btn-prev').addEventListener('click', prevSlide);
+    document.getElementById('btn-next').addEventListener('click', nextSlide);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'p' || e.key === 'P') {
+        presenterHud.classList.toggle('active');
+      } else if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      }
+    });
+
+    function handleTimeUpdate(audioEl, cues) {
+      audioEl.addEventListener('timeupdate', () => {
+        if (activeAudio !== audioEl) return;
+        const cur = audioEl.currentTime;
+        for (let i = cues.length - 1; i >= 0; i--) {
+          if (cur >= cues[i]) {
+            if (currentSlide !== i + 1) {
+              showSlide(i + 1);
+            }
+            break;
+          }
+        }
+      });
+
+      audioEl.addEventListener('ended', () => {
+        if (activeAudio !== audioEl) return;
+        btnToggleAudio.classList.remove('playing');
+        const vName = currentVoice === 'au' ? 'Australian' : 'Kokoro';
+        btnToggleAudio.innerHTML = `<span>🔄</span><span>Replay ${vName} Voiceover</span>`;
+        isPlayingAudio = false;
+      });
+    }
+
+    handleTimeUpdate(auAudio, auSlideCues);
+    handleTimeUpdate(kokoroAudio, kokoroSlideCues);
+
+    showSlide(1);
+  </script>
+</body>
+</html>

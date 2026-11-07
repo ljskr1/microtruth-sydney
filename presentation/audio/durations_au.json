@@ -1,0 +1,47 @@
+{
+  "total_duration": 90.798,
+  "slides": [
+    {
+      "slide": 1,
+      "title": "The Asymmetric Trap",
+      "duration": 14.328,
+      "file": "/Users/lijah/Downloads/luke /microtruth-sydney/presentation/audio/slide_1_au.mp3"
+    },
+    {
+      "slide": 2,
+      "title": "In-Situ Reality",
+      "duration": 15.624,
+      "file": "/Users/lijah/Downloads/luke /microtruth-sydney/presentation/audio/slide_2_au.mp3"
+    },
+    {
+      "slide": 3,
+      "title": "The Underquote Reality Badge",
+      "duration": 19.44,
+      "file": "/Users/lijah/Downloads/luke /microtruth-sydney/presentation/audio/slide_3_au.mp3"
+    },
+    {
+      "slide": 4,
+      "title": "Inside The Building Ledger",
+      "duration": 17.136,
+      "file": "/Users/lijah/Downloads/luke /microtruth-sydney/presentation/audio/slide_4_au.mp3"
+    },
+    {
+      "slide": 5,
+      "title": "Machine Learning Pricing Rigor",
+      "duration": 19.032,
+      "file": "/Users/lijah/Downloads/luke /microtruth-sydney/presentation/audio/slide_5_au.mp3"
+    },
+    {
+      "slide": 6,
+      "title": "The Negotiation Weapon",
+      "duration": 14.688,
+      "file": "/Users/lijah/Downloads/luke /microtruth-sydney/presentation/audio/slide_6_au.mp3"
+    },
+    {
+      "slide": 7,
+      "title": "Why MicroTruth Wins",
+      "duration": 8.424,
+      "file": "/Users/lijah/Downloads/luke /microtruth-sydney/presentation/audio/slide_7_au.mp3"
+    }
+  ]
+}

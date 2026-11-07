@@ -24,9 +24,15 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Intermediate recordings
+# Intermediate recordings & audio
 recordings/
+*.wav
+presentation/frames/*.mp4
+submission/*_visual_only.mp4
+submission/*_with_voiceover.mp4
+submission/*_silent_original.mp4
 
+# Datasets (Do NOT include Microburbs raw datasets or keys)
 *.csv
 !sample_listings.csv
 !submission/rents_oneshot.csv
