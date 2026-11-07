@@ -4,7 +4,8 @@ from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, Query, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import JSONResponse, HTMLResponse, Response
+import httpx
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
@@ -214,6 +215,75 @@ async def get_social_card_data(
         "viral_hook": f"Agent quoted ${guide:,.0f}. Microburbs valuation is ${avm:,.0f}. Who are they kidding?" if (guide and avm and pct >= 10) else "Before you sign or bid, scan the Microburbs truth."
     }
     return card_data
+
+@app.get("/api/config/maps")
+def get_maps_config():
+    """Returns whether Google Maps API is configured and available for interactive maps."""
+    key = os.getenv("GOOGLE_MAPS_API_KEY", "")
+    return {
+        "available": bool(key),
+        "key": key
+    }
+
+@app.get("/api/maps/streetview")
+async def get_streetview(
+    lat: float = Query(..., description="Latitude"),
+    lng: float = Query(..., description="Longitude"),
+    heading: Optional[float] = Query(None),
+    pitch: Optional[float] = Query(0),
+    fov: Optional[float] = Query(90),
+    width: int = Query(600),
+    height: int = Query(400)
+):
+    """Proxies Google Street View image securely without exposing API key in client markup."""
+    key = os.getenv("GOOGLE_MAPS_API_KEY", "")
+    if not key:
+        raise HTTPException(status_code=503, detail="Google Maps API key not configured")
+    
+    url = "https://maps.googleapis.com/maps/api/streetview"
+    params = {
+        "size": f"{min(width, 800)}x{min(height, 600)}",
+        "location": f"{lat},{lng}",
+        "pitch": pitch,
+        "fov": fov,
+        "key": key
+    }
+    if heading is not None:
+        params["heading"] = heading
+
+    async with httpx.AsyncClient(timeout=10.0) as http_client:
+        r = await http_client.get(url, params=params)
+        if r.status_code == 200:
+            return Response(content=r.content, media_type="image/jpeg", headers={"Cache-Control": "public, max-age=86400"})
+        raise HTTPException(status_code=r.status_code, detail="Street View error")
+
+@app.get("/api/maps/satellite")
+async def get_satellite(
+    lat: float = Query(..., description="Latitude"),
+    lng: float = Query(..., description="Longitude"),
+    zoom: int = Query(18),
+    width: int = Query(600),
+    height: int = Query(400)
+):
+    """Proxies Google Maps Static satellite image securely."""
+    key = os.getenv("GOOGLE_MAPS_API_KEY", "")
+    if not key:
+        raise HTTPException(status_code=503, detail="Google Maps API key not configured")
+    
+    url = "https://maps.googleapis.com/maps/api/staticmap"
+    params = {
+        "center": f"{lat},{lng}",
+        "zoom": zoom,
+        "size": f"{min(width, 800)}x{min(height, 600)}",
+        "maptype": "hybrid",
+        "markers": f"color:red|{lat},{lng}",
+        "key": key
+    }
+    async with httpx.AsyncClient(timeout=10.0) as http_client:
+        r = await http_client.get(url, params=params)
+        if r.status_code == 200:
+            return Response(content=r.content, media_type="image/png", headers={"Cache-Control": "public, max-age=86400"})
+        raise HTTPException(status_code=r.status_code, detail="Static map error")
 
 # Mount extension directory for local preview and testing
 ext_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "extension"))

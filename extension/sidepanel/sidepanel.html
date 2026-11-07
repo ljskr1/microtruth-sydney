@@ -54,6 +54,17 @@
         </div>
       </section>
 
+      <!-- High-Stakes Action Verdict -->
+      <div id="decision-alert-banner" class="decision-alert-banner severe">
+        <div class="decision-alert-icon">🛑</div>
+        <div class="decision-alert-body">
+          <div class="decision-alert-title" id="decision-alert-title">AUCTION CLEARANCE REALITY: $805,000 – $835,000</div>
+          <div class="decision-alert-desc" id="decision-alert-desc">
+            Agent Quoted <strong>$720,000</strong> (+11.9% Underquote). If your borrowing limit is under $810k, <strong>save $600 on a strata inspection</strong>—you are being priced out.
+          </div>
+        </div>
+      </div>
+
       <!-- The Underquoting & Reality Check -->
       <section class="card valuation-card">
         <div class="card-header">
@@ -125,16 +136,45 @@
         </div>
       </section>
 
-      <!-- Suburb Boundary Map -->
+      <!-- Google Geospatial Cockpit -->
       <section class="card map-card">
         <div class="card-header">
-          <h3>Microburbs Suburb Boundary</h3>
+          <h3>Geospatial Truth & Street View</h3>
           <span id="map-suburb-name" class="tag tag-blue">Waterloo</span>
         </div>
+        
+        <!-- View Mode Switcher -->
+        <div class="map-view-switcher">
+          <button id="view-mode-map" class="map-tab active">🗺️ Boundary Map</button>
+          <button id="view-mode-satellite" class="map-tab">🛰️ Aerial 3D</button>
+          <button id="view-mode-streetview" class="map-tab">📸 Street View</button>
+        </div>
+
         <div id="suburb-map-wrapper" class="suburb-map-wrapper">
-          <svg id="suburb-polygon-svg" viewBox="0 0 320 180" class="suburb-polygon-svg">
-            <!-- Polygon and pin injected dynamically -->
+          <!-- Interactive Google Map container -->
+          <div id="google-map-container" class="google-map-container"></div>
+          
+          <!-- Satellite Static fallback / view -->
+          <div id="satellite-container" class="satellite-container" style="display: none;">
+            <img id="satellite-img" src="/api/maps/satellite?lat=-33.9016&lng=151.2120" alt="Satellite Aerial View" class="map-layer-img">
+            <div class="map-overlay-badge">🛰️ High-Res Aerial View</div>
+          </div>
+
+          <!-- Street View container -->
+          <div id="streetview-container" class="streetview-container" style="display: none;">
+            <img id="streetview-img" src="/api/maps/streetview?lat=-33.9016&lng=151.2120" alt="Ground-level Street View" class="map-layer-img">
+            <div class="map-overlay-badge">📸 Ground Truth: 8 Sam Sing St Curb</div>
+          </div>
+
+          <!-- Fallback SVG when maps API unavailable -->
+          <svg id="suburb-polygon-svg" viewBox="0 0 320 180" class="suburb-polygon-svg" style="display: none;">
+            <!-- Polygon injected dynamically -->
           </svg>
+        </div>
+        <div class="map-legend">
+          <span><strong style="color:#38BDF8;">■</strong> Official Boundary</span>
+          <span><strong style="color:#F59E0B;">●</strong> Property</span>
+          <span><strong style="color:#10B981;">●</strong> 5 Building Sales</span>
         </div>
       </section>
 

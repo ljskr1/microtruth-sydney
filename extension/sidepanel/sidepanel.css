@@ -560,16 +560,145 @@ body {
   outline: none;
 }
 
-/* Suburb Map */
+/* Suburb Map & Google Geospatial Cockpit */
+.decision-alert-banner {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
+}
+
+.decision-alert-banner.moderate {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15);
+}
+
+.decision-alert-banner.fair {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15);
+}
+
+.decision-alert-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.decision-alert-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.decision-alert-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #FCA5A5;
+  text-transform: uppercase;
+}
+
+.decision-alert-banner.moderate .decision-alert-title {
+  color: #FCD34D;
+}
+
+.decision-alert-banner.fair .decision-alert-title {
+  color: #6EE7B7;
+}
+
+.decision-alert-desc {
+  font-size: 11.5px;
+  color: #E2E8F0;
+  line-height: 1.4;
+}
+
+.map-view-switcher {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.map-tab {
+  flex: 1;
+  padding: 6px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.map-tab.active {
+  background: rgba(56, 189, 248, 0.18);
+  color: var(--accent-cyan);
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
+.google-map-container {
+  width: 100%;
+  height: 200px;
+  border-radius: var(--radius-sm);
+  background: #0F172A;
+}
+
+.satellite-container, .streetview-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.map-layer-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.map-overlay-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 4px;
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.map-legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  padding: 0 4px;
+}
+
 .suburb-map-wrapper {
   background: #0B132B;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 10px;
+  padding: 6px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  position: relative;
 }
 
 .suburb-polygon-svg {
