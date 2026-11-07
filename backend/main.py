@@ -1,4 +1,5 @@
 import os
+import sys
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, Query, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,7 +8,11 @@ from fastapi.responses import JSONResponse, HTMLResponse
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
-from microburbs_client import MicroburbsClient
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from microburbs_client import MicroburbsClient
+except ImportError:
+    from .microburbs_client import MicroburbsClient
 
 load_dotenv()
 
