@@ -155,14 +155,35 @@ function renderAnalysis(data) {
     });
   }
 
-  // 4. Update Viral Card Preview
-  document.getElementById("card-addr-preview").innerText = addr;
-  document.getElementById("card-guide-preview").innerText = guide ? `$${Math.round(guide).toLocaleString()}` : "$720,000";
-  document.getElementById("card-avm-preview").innerText = avm ? `$${Math.round(avm).toLocaleString()}` : "$805,500";
-  document.getElementById("card-gap-preview").innerText = pct > 0 ? `+${pct}% Underquoted` : "Fair Alignment";
+  // 4. Calculate Ownership & Cash Flow Reality (Buyer & Investor Utility)
+  const avmPrice = pricing.avm_predicted_price || pricing.guide_price || data.suburb_market_snapshot?.median_sale_price || 805500;
+  const loanAmount = avmPrice * 0.8;
+  const monthlyInterestRate = 0.061 / 12;
+  const totalPayments = 30 * 12;
+  const monthlyMortgage = Math.round((loanAmount * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalPayments))) / (Math.pow(1 + monthlyInterestRate, totalPayments) - 1));
+  const monthlyStrataCouncil = Math.round(basics.strata_quarterly ? basics.strata_quarterly / 3 : 480);
+  const totalOutlay = monthlyMortgage + monthlyStrataCouncil;
+  
+  const weeklyRentWithCar = basics.rent_with_car || Math.round((pricing.avm_predicted_price ? (pricing.avm_predicted_price * 0.05 / 52) : 940) + 50);
+  const monthlyRentIncome = Math.round(weeklyRentWithCar * 52 / 12);
+  const netCashFlow = monthlyRentIncome - totalOutlay;
+  const grossYield = ((weeklyRentWithCar * 52 / avmPrice) * 100).toFixed(2);
 
-  const hazardsPreview = document.getElementById("card-hazards-preview");
-  hazardsPreview.innerHTML = traps.slice(0, 2).map(t => `<span>⚠️ ${t.title}</span>`).join("");
+  const yieldBadge = document.getElementById("cashflow-yield-badge");
+  if (yieldBadge) yieldBadge.innerText = `${grossYield}% Gross Yield`;
+  const cfMortgage = document.getElementById("cf-mortgage");
+  if (cfMortgage) cfMortgage.innerText = `$${monthlyMortgage.toLocaleString()} / mo`;
+  const cfStrata = document.getElementById("cf-strata");
+  if (cfStrata) cfStrata.innerText = `$${monthlyStrataCouncil.toLocaleString()} / mo`;
+  const cfOutlay = document.getElementById("cf-outlay");
+  if (cfOutlay) cfOutlay.innerText = `$${totalOutlay.toLocaleString()} / mo`;
+  const cfIncome = document.getElementById("cf-income");
+  if (cfIncome) cfIncome.innerText = `+$${monthlyRentIncome.toLocaleString()} / mo`;
+  const cfNet = document.getElementById("cf-net-flow");
+  if (cfNet) {
+    cfNet.innerText = `${netCashFlow < 0 ? "-" : "+"}$${Math.abs(netCashFlow).toLocaleString()} / mo`;
+    cfNet.style.color = netCashFlow >= 0 ? "#34D399" : "#FCD34D";
+  }
 
   // Default offer input to target 92% of guide or AVM low
   const suggestedOffer = low ? Math.round(low) : (guide ? Math.round(guide * 0.95) : 750000);
@@ -620,137 +641,8 @@ Prepared via MicroTruth Sydney Intelligence`;
   document.getElementById("letter-container").style.display = "flex";
 }
 
-// Copy to Reddit Format
-function copyRedditFormat() {
-  if (!currentAnalysis) return;
-  const addr = currentAnalysis.display_name;
-  const guide = currentAnalysis.pricing?.guide_price;
-  const avm = currentAnalysis.pricing?.avm_predicted_price;
-  const pct = currentAnalysis.pricing?.underquote_percentage || 0;
-  const traps = currentAnalysis.traps || [];
-
-  const text = `[Sydney Property Reality Check] ${addr}
-Advertised Guide: ${guide ? `$${Math.round(guide).toLocaleString()}` : "Auction Guide"}
-Microburbs AVM: $${avm ? Math.round(avm).toLocaleString() : "N/A"} (${pct > 0 ? `+${pct}% Underquoted` : "Fair Market"})
-
-What the Agent Listed: "Quiet sanctuary in prime location"
-What Microburbs Data Shows:
-${traps.map(t => `- ${t.title}: ${t.detail || ""}`).join("\n")}
-
-Stop bidding blind in Sydney. Microburbs data shows the real numbers before auction day.`;
-
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById("btn-copy-reddit");
-    btn.innerText = "✅ Copied to Clipboard!";
-    setTimeout(() => { btn.innerText = "📋 Copy Reddit Format"; }, 2000);
-  });
-}
-
-// Download Card as PNG via HTML5 Canvas
-function downloadCardAsPng() {
-  if (!currentAnalysis) return;
-  const canvas = document.createElement("canvas");
-  canvas.width = 1080;
-  canvas.height = 1080;
-  const ctx = canvas.getContext("2d");
-
-  // Background
-  ctx.fillStyle = "#0B0F19";
-  ctx.fillRect(0, 0, 1080, 1080);
-
-  // Top header banner
-  ctx.fillStyle = "#0284C7";
-  ctx.fillRect(80, 80, 920, 10);
-
-  // Badge
-  ctx.font = "bold 28px -apple-system, sans-serif";
-  ctx.fillStyle = "#38BDF8";
-  ctx.fillText("MICROBURBS SYDNEY REALITY CHECK", 80, 140);
-
-  // Address
-  ctx.font = "bold 44px -apple-system, sans-serif";
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillText(currentAnalysis.display_name.slice(0, 38), 80, 210);
-
-  // Contrast Cards
-  // Left: The Advert
-  ctx.fillStyle = "#131B2E";
-  ctx.roundRect(80, 270, 440, 360, 20);
-  ctx.fill();
-  ctx.strokeStyle = "rgba(255,255,255,0.1)";
-  ctx.stroke();
-
-  ctx.font = "bold 24px -apple-system, sans-serif";
-  ctx.fillStyle = "#94A3B8";
-  ctx.fillText("THE ADVERT", 120, 330);
-
-  const guide = currentAnalysis.pricing?.guide_price;
-  ctx.font = "bold 56px -apple-system, sans-serif";
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillText(guide ? `$${Math.round(guide).toLocaleString()}` : "$720,000", 120, 420);
-
-  ctx.font = "italic 24px -apple-system, sans-serif";
-  ctx.fillStyle = "#CBD5E1";
-  ctx.fillText('"Quiet luxury sanctuary"', 120, 490);
-
-  // Right: The Microburbs Facts
-  ctx.fillStyle = "#0C2340";
-  ctx.roundRect(560, 270, 440, 360, 20);
-  ctx.fill();
-  ctx.strokeStyle = "#38BDF8";
-  ctx.lineWidth = 3;
-  ctx.stroke();
-
-  ctx.font = "bold 24px -apple-system, sans-serif";
-  ctx.fillStyle = "#38BDF8";
-  ctx.fillText("THE MICROBURBS FACTS", 600, 330);
-
-  const avm = currentAnalysis.pricing?.avm_predicted_price;
-  ctx.font = "bold 56px -apple-system, sans-serif";
-  ctx.fillStyle = "#38BDF8";
-  ctx.fillText(avm ? `$${Math.round(avm).toLocaleString()}` : "$805,500", 600, 420);
-
-  const pct = currentAnalysis.pricing?.underquote_percentage || 0;
-  ctx.font = "bold 28px -apple-system, sans-serif";
-  ctx.fillStyle = "#F59E0B";
-  ctx.fillText(pct > 0 ? `+${pct}% UNDERQUOTED` : "FAIR MARKET", 600, 490);
-
-  // Traps banner
-  ctx.fillStyle = "#131B2E";
-  ctx.roundRect(80, 680, 920, 220, 20);
-  ctx.fill();
-
-  ctx.font = "bold 28px -apple-system, sans-serif";
-  ctx.fillStyle = "#EF4444";
-  ctx.fillText("UNMASKED HIDDEN HAZARDS:", 120, 740);
-
-  ctx.font = "24px -apple-system, sans-serif";
-  ctx.fillStyle = "#F8FAFC";
-  const traps = currentAnalysis.traps || [];
-  if (traps.length > 0) {
-    traps.slice(0, 3).forEach((t, i) => {
-      ctx.fillText(`• ${t.title}`, 120, 790 + (i * 35));
-    });
-  } else {
-    ctx.fillText("• Certified Clear: No critical hazards within 200m", 120, 790);
-  }
-
-  // Footer
-  ctx.font = "20px -apple-system, sans-serif";
-  ctx.fillStyle = "#64748B";
-  ctx.fillText("Verified via Microburbs Municipal API • Built for the 2026 Hackathon", 80, 980);
-
-  // Download Trigger
-  const link = document.createElement("a");
-  link.download = `microtruth-${Date.now()}.png`;
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-}
-
 function setupButtons() {
   document.getElementById("btn-generate-letter")?.addEventListener("click", generateOfferLetter);
-  document.getElementById("btn-copy-reddit")?.addEventListener("click", copyRedditFormat);
-  document.getElementById("btn-download-card")?.addEventListener("click", downloadCardAsPng);
   document.getElementById("btn-copy-letter")?.addEventListener("click", () => {
     const text = document.getElementById("letter-text").value;
     navigator.clipboard.writeText(text).then(() => {

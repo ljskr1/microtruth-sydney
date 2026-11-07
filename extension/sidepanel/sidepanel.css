@@ -379,99 +379,69 @@ body {
   text-transform: uppercase;
 }
 
-/* Viral Card Preview */
-.viral-card-container {
-  background: #020617;
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  border-radius: var(--radius-lg);
-  padding: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-}
-
-.card-preview-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.preview-badge {
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--accent-cyan);
-  text-transform: uppercase;
-}
-
-.preview-address {
-  font-size: 13px;
-  font-weight: 700;
-  color: #FFFFFF;
-}
-
-.preview-contrast-grid {
+/* Financial Cash Flow & Ownership Reality */
+.cashflow-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
+  margin-top: 8px;
 }
 
-.contrast-col {
-  padding: 8px;
+.cashflow-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
+  padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.advert-col {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.cashflow-box.highlight-cost {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.25);
 }
 
-.facts-col {
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.3);
+.cashflow-box.highlight-income {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.25);
 }
 
-.contrast-tag {
-  font-size: 9px;
+.cashflow-label {
+  font-size: 10px;
   text-transform: uppercase;
   font-weight: 700;
   color: var(--text-muted);
 }
 
-.contrast-val {
-  font-size: 14px;
+.cashflow-val {
+  font-size: 15px;
   font-weight: 800;
   color: #FFFFFF;
 }
 
-.contrast-desc {
-  font-size: 10px;
-  color: var(--accent-amber);
-  font-weight: 600;
+.cashflow-box.highlight-income .cashflow-val {
+  color: #34D399;
 }
 
-.preview-hazards {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-size: 10px;
-  color: #CBD5E1;
+.cashflow-box.highlight-cost .cashflow-val {
+  color: #F87171;
 }
 
-.preview-watermark {
-  font-size: 9px;
+.cashflow-sub {
+  font-size: 10px;
   color: var(--text-muted);
-  text-align: right;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 6px;
 }
 
-/* Action buttons */
-.action-buttons-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+.cashflow-bottom-banner {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  text-align: center;
 }
 
 .btn {

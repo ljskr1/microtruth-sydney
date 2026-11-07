@@ -231,42 +231,39 @@
         </div>
       </section>
 
-      <!-- 1-Click Viral Social Card Generator -->
-      <section class="card viral-card-section">
+      <!-- Financial Cash Flow & Ownership Reality (Buyer & Investor Utility) -->
+      <section class="card cashflow-section">
         <div class="card-header">
-          <h3>Viral Reality Card (Task 1 Engine)</h3>
-          <span class="tag tag-green">🔥 Shareable</span>
+          <h3>Ownership & Cash Flow Reality</h3>
+          <span class="tag tag-blue" id="cashflow-yield-badge">5.18% Gross Yield</span>
         </div>
-        <p class="section-desc">Generate high-contrast visual proof: "The Advert vs The Facts" for Reddit (r/ausfinance) and Instagram.</p>
+        <p class="section-desc">True monthly commitment after mortgage, strata, and council levies vs Task 4 rental income.</p>
         
-        <!-- Live Visual Preview of Card -->
-        <div id="viral-card-preview" class="viral-card-container">
-          <div class="card-preview-inner">
-            <div class="preview-badge">SYDNEY PROPERTY REALITY CHECK</div>
-            <div id="card-addr-preview" class="preview-address">Unit 105, 8 Sam Sing St, Waterloo</div>
-            <div class="preview-contrast-grid">
-              <div class="contrast-col advert-col">
-                <div class="contrast-tag">The Advert</div>
-                <div id="card-guide-preview" class="contrast-val">$720,000</div>
-                <div class="contrast-desc">"Quiet luxury sanctuary"</div>
-              </div>
-              <div class="contrast-col facts-col">
-                <div class="contrast-tag">The Facts</div>
-                <div id="card-avm-preview" class="contrast-val">$805,500</div>
-                <div id="card-gap-preview" class="contrast-desc">+11.9% Underquoted</div>
-              </div>
-            </div>
-            <div class="preview-hazards" id="card-hazards-preview">
-              <span>⚠️ 16 Social Housing in 200m</span>
-              <span>⚠️ Commercial Zone</span>
-            </div>
-            <div class="preview-watermark">Microburbs Certified Hackathon Intelligence</div>
+        <div class="cashflow-grid">
+          <div class="cashflow-box">
+            <span class="cashflow-label">Est. Mortgage (6.1% P&I)</span>
+            <span class="cashflow-val" id="cf-mortgage">$3,890 / mo</span>
+            <span class="cashflow-sub">Based on 20% Deposit</span>
+          </div>
+          <div class="cashflow-box">
+            <span class="cashflow-label">Est. Strata + Levies</span>
+            <span class="cashflow-val" id="cf-strata">$480 / mo</span>
+            <span class="cashflow-sub">~$1,440/qtr benchmark</span>
+          </div>
+          <div class="cashflow-box highlight-cost">
+            <span class="cashflow-label">Total Monthly Outlay</span>
+            <span class="cashflow-val" id="cf-outlay">$4,370 / mo</span>
+            <span class="cashflow-sub">P&I + Strata + Council</span>
+          </div>
+          <div class="cashflow-box highlight-income">
+            <span class="cashflow-label">Task 4 Rental Income</span>
+            <span class="cashflow-val" id="cf-income">+$4,073 / mo</span>
+            <span class="cashflow-sub">$940/wk with car space</span>
           </div>
         </div>
 
-        <div class="action-buttons-row">
-          <button id="btn-copy-reddit" class="btn btn-secondary">📋 Copy Reddit Format</button>
-          <button id="btn-download-card" class="btn btn-primary">🎨 Download Card (PNG)</button>
+        <div class="cashflow-bottom-banner" id="cf-bottom-banner">
+          <span>📉 Net Monthly Cash Flow: <strong id="cf-net-flow" style="color: #FCD34D;">-$297 / mo</strong> (Negative Gearing Range)</span>
         </div>
       </section>
 
